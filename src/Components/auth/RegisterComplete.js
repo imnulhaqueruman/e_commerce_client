@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from "react-router-dom";
 import {auth} from './firebase.config';
 import {toast} from 'react-toastify';
-const RegisterComplete = ({ history }) => {
+const RegisterComplete = () => {
+    const history = useHistory()
+    console.log(history)
 
     const[email,setEmail] = useState('')
     const[password, setPassword] = useState('')
@@ -37,13 +40,14 @@ const RegisterComplete = ({ history }) => {
             // redux store
             console.log("user", user, "idTokenResult", idTokenResult);
             // redirect
-            history.push("/");
+             history.push("/");
           }
         }
       
         catch(error){
             console.log(error);
             toast.error(error.message)
+            console.log(error.message)
         };
         
 

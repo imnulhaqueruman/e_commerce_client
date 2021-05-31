@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -14,8 +14,28 @@ import Login from './Components/auth/Login';
 import Register from './Components/auth/Register';
 import Header from './Components/Nav/Header';
 import RegisterComplete from './Components/auth/RegisterComplete';
+import { useDispatch } from 'react-redux';
+import { auth } from './Components/auth/firebase.config';
+import { logInUser } from './redux/action/action';
 
 function App() {
+  const dispatch = useDispatch()
+
+  useEffect(() =>{
+    const unsubscribe = auth.onAuthStateChanged(async(user) =>{
+      if(user){
+        const idTokenResult = user.getIdTokenResult();
+        console.log(user)
+       const payLoad = {
+          email:user.email,
+          token:idTokenResult.token
+        }
+        dispatch(logInUser(payLoad))
+      }
+    })
+    return () => unsubscribe();
+
+  },[])
   return (
     <>
         <Header></Header>
@@ -31,7 +51,7 @@ function App() {
           <Route path="/complete">
               <RegisterComplete></RegisterComplete>
           </Route>
-          <Route exact path="/">
+          <Route path="/">
              <Home></Home>
           </Route>
         </Switch>
