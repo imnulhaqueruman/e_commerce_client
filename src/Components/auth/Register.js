@@ -30,7 +30,9 @@ const Register = () => {
                 <div className="col-md-6 offset-md-3">
                     <h4>Register</h4>
                     <form onSubmit={handleSubmit}>
-                      <input type="email" className="form-control" value={email} onChange={handleChange} autoFocus/>
+                      <input type="email" className="form-control" value={email}
+                       onChange={handleChange} placeholder="your email" autoFocus/>
+                       <br/>
                       <button type="submit" className="btn btn-primary my-3">Register</button>
                     </form>
                 </div>
