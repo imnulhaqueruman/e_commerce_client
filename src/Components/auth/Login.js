@@ -6,13 +6,36 @@ import {auth} from './firebase.config';
 import {toast} from 'react-toastify';
 import{Button} from 'antd';
 import {MailOutlined} from '@ant-design/icons';
+import { useDispatch } from "react-redux";
+import { logInUser } from "../../redux/action/action";
+import { useHistory } from "react-router";
 const Login = () => {
     const[email,setEmail] = useState('');
     const[password,setPassword] = useState("");
+    const[loading, setLoading] = useState(false);
     
+    const history = useHistory();
+    const dispatch = useDispatch();
     const handleSubmit = async (e) =>{
         e.preventDefault()
-        console.table(email,password)
+        setLoading(true)
+        try{
+           const result = await auth.signInWithEmailAndPassword(email, password);
+           //console.log(result)
+           const{user} = result;
+           const idTokenResult = await user.getIdTokenResult();
+           const payLoad = {
+            email:user.email,
+            token:idTokenResult.token
+          }
+          dispatch(logInUser(payLoad))
+          history.push('/');
+        } 
+        catch(error){
+           console.log(error);
+           toast.error(error.message)
+           setLoading(false)
+        }
         
     }
     const handleChangeEmail = (e) =>{
@@ -47,7 +70,7 @@ const Login = () => {
                        className="mb-3"
                        icon={<MailOutlined/>}
                        size="large"
-                       disable={!email || password.length<6}
+                       disabled={!email || password.length < 6}
                      >
                          Login with Email/password
                      </Button>

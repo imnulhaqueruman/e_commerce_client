@@ -24,8 +24,8 @@ function App() {
   useEffect(() =>{
     const unsubscribe = auth.onAuthStateChanged(async(user) =>{
       if(user){
-        const idTokenResult = user.getIdTokenResult();
-        console.log(user)
+        const idTokenResult = await user.getIdTokenResult();
+            //console.log(user)
        const payLoad = {
           email:user.email,
           token:idTokenResult.token
