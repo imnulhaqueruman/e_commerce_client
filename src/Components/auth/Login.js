@@ -1,11 +1,11 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import React, { useState } from 'react';
-import {auth} from './firebase.config';
+import {auth, googleAuthProvider} from './firebase.config';
 
 import {toast} from 'react-toastify';
 import{Button} from 'antd';
-import {MailOutlined} from '@ant-design/icons';
+import {MailOutlined,GoogleOutlined} from '@ant-design/icons';
 import { useDispatch } from "react-redux";
 import { logInUser } from "../../redux/action/action";
 import { useHistory } from "react-router";
@@ -46,11 +46,35 @@ const Login = () => {
         setPassword(e.target.value)
 
     }
+    const googleLogin = async() =>{
+        auth.
+        signInWithPopup(googleAuthProvider).
+        then(async(result) =>{
+            const{user} = result;
+            const idTokenResult = await user.getIdTokenResult();
+            const payLoad = {
+             email:user.email,
+             token:idTokenResult.token
+           }
+           dispatch(logInUser(payLoad))
+           history.push('/');
+        })
+        .catch(err =>{
+            console.log(err)
+            toast.err(err.message)
+        })
+
+    }
     return (
         <div className="container p-5">
             <div className="row">
                 <div className="col-md-6 offset-md-3">
-                    <h4>Login</h4>
+                   {
+                       loading ?   <div class="spinner-border" role="status">
+                                      <span class="visually-hidden">Loading...</span>
+                                  </div> : <h4>Login</h4>
+                       
+                   }
                     <form onSubmit={handleSubmit}>
                       <div className="from-group">
                        <input type="email" className="form-control" value={email}
@@ -73,6 +97,19 @@ const Login = () => {
                        disabled={!email || password.length < 6}
                      >
                          Login with Email/password
+                     </Button>
+                     <br/>
+                     <Button
+                      onClick={googleLogin}
+                       type="default"
+                       block
+                       shape="round"
+                       className="mb-3"
+                       icon={<GoogleOutlined/>}
+                       size="large"
+                     
+                     >
+                         Login with Google
                      </Button>
                     </form>
                 </div>
