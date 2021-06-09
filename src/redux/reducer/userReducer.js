@@ -1,16 +1,9 @@
-const initialState = {
-    userLoginData:[],
-    userLogoutData:[],
-}
-const userReducer = (state=initialState, action) =>{
+
+const userReducer = (state=null, action) =>{
     switch(action.type){
         case "LOGGED_IN_USER":{
-           const newState = {
-               ...state,
-               userLoginData:[...state.userLoginData, action.payLoad]
-
-           }
-           return newState
+           
+           return action.payLoad
         }
         case "LOGOUT":{
             return action.payLoad

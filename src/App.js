@@ -3,8 +3,7 @@ import './App.css';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 
 import { ToastContainer} from 'react-toastify';
@@ -17,6 +16,7 @@ import RegisterComplete from './Components/auth/RegisterComplete';
 import { useDispatch } from 'react-redux';
 import { auth } from './Components/auth/firebase.config';
 import { logInUser } from './redux/action/action';
+import ForgotPassword from './Components/auth/ForgotPassword';
 
 function App() {
   const dispatch = useDispatch()
@@ -50,6 +50,9 @@ function App() {
           </Route>
           <Route path="/complete">
               <RegisterComplete></RegisterComplete>
+          </Route>
+          <Route path="/forgot/password">
+            <ForgotPassword></ForgotPassword>
           </Route>
           <Route path="/">
              <Home></Home>

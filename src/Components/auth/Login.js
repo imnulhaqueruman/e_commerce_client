@@ -1,19 +1,27 @@
 import firebase from "firebase/app";
 import "firebase/auth";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {auth, googleAuthProvider} from './firebase.config';
 
 import {toast} from 'react-toastify';
 import{Button} from 'antd';
 import {MailOutlined,GoogleOutlined} from '@ant-design/icons';
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { logInUser } from "../../redux/action/action";
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 const Login = () => {
     const[email,setEmail] = useState('');
     const[password,setPassword] = useState("");
     const[loading, setLoading] = useState(false);
     
+    const {user} = useSelector((state) =>({...state}))
+
+    useEffect(() =>{
+        if(user && user.token){
+            history.push('/')
+        }
+    },[user])
     const history = useHistory();
     const dispatch = useDispatch();
     const handleSubmit = async (e) =>{
@@ -111,6 +119,9 @@ const Login = () => {
                      >
                          Login with Google
                      </Button>
+                     <Link to="/forgot/password" className="float-right text-danger">
+                         Forgot Password
+                     </Link>
                     </form>
                 </div>
 

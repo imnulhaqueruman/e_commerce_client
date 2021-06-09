@@ -3,7 +3,7 @@ import { Menu } from 'antd';
 import {AppstoreOutlined, SettingOutlined, UserAddOutlined, UserOutlined,LogoutOutlined } from '@ant-design/icons';
 import { Link, useHistory } from 'react-router-dom';
 import firebase from 'firebase';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const { SubMenu } = Menu;
 const Header = () => {
@@ -11,7 +11,9 @@ const Header = () => {
 
     let dispatch = useDispatch();
     let history = useHistory()
-
+    const {user} = useSelector((state) =>({ ...state
+    }))
+    console.log('user data', user)
     const handleClick = (e) =>{
         //console.log(e.key)
         setCurrent(e.key)
@@ -31,18 +33,21 @@ const Header = () => {
           <Link to="/">Home</Link>
         </Menu.Item>
 
-        <Menu.Item key="register" icon={<UserAddOutlined/>} className="float-end">
+        {!user && <Menu.Item key="register" icon={<UserAddOutlined/>} className="float-end">
           <Link to="/register">Register</Link>
         </Menu.Item>
-        <Menu.Item key="login" icon={<UserOutlined/>} className="float-end">
+        }
+        {!user && <Menu.Item key="login" icon={<UserOutlined/>} className="float-end">
           <Link to="login">Login</Link>
         </Menu.Item>
+        }
     
-        <SubMenu key="SubMenu" icon={<SettingOutlined />} title="Username">
+        {user && <SubMenu key="SubMenu" icon={<SettingOutlined />} title={user.email && user.email.split('@')[0]} className="float-end">
             <Menu.Item key="setting:1">Option 1</Menu.Item>
             <Menu.Item key="setting:2">Option 2</Menu.Item>  
             <Menu.Item icon={<LogoutOutlined />} onClick={() => logOut()}>Logout</Menu.Item>
         </SubMenu>
+        }
        
         
       </Menu>
