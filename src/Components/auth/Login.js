@@ -10,6 +10,8 @@ import { useDispatch,useSelector } from "react-redux";
 import { logInUser } from "../../redux/action/action";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
+import { createOrUpdateUser } from "../../functions/auth";
+
 const Login = () => {
     const[email,setEmail] = useState('');
     const[password,setPassword] = useState("");
@@ -32,11 +34,19 @@ const Login = () => {
            //console.log(result)
            const{user} = result;
            const idTokenResult = await user.getIdTokenResult();
-           const payLoad = {
-            email:user.email,
-            token:idTokenResult.token
-          }
-          dispatch(logInUser(payLoad))
+           createOrUpdateUser(idTokenResult.token)
+           .then((res) =>{
+            const payLoad = {
+                email:res.data.email,
+                name:res.data.name,
+                id:res.data._id,
+                role:res.data.role,
+                token:idTokenResult.token
+              }
+              dispatch(logInUser(payLoad))
+           } )
+           .catch(err => console.log(err));
+         
           history.push('/');
         } 
         catch(error){
@@ -60,11 +70,18 @@ const Login = () => {
         then(async(result) =>{
             const{user} = result;
             const idTokenResult = await user.getIdTokenResult();
-            const payLoad = {
-             email:user.email,
-             token:idTokenResult.token
-           }
-           dispatch(logInUser(payLoad))
+            createOrUpdateUser(idTokenResult.token)
+            .then((res) =>{
+             const payLoad = {
+                 email:res.data.email,
+                 name:res.data.name,
+                 id:res.data._id,
+                 role:res.data.role,
+                 token:idTokenResult.token
+               }
+               dispatch(logInUser(payLoad))
+            } )
+            .catch(err => console.log(err));
            history.push('/');
         })
         .catch(err =>{

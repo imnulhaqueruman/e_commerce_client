@@ -17,7 +17,7 @@ import { useDispatch } from 'react-redux';
 import { auth } from './Components/auth/firebase.config';
 import { logInUser } from './redux/action/action';
 import ForgotPassword from './Components/auth/ForgotPassword';
-
+import currentUser from './functions/auth';
 function App() {
   const dispatch = useDispatch()
 
@@ -26,11 +26,18 @@ function App() {
       if(user){
         const idTokenResult = await user.getIdTokenResult();
             //console.log(user)
-       const payLoad = {
-          email:user.email,
-          token:idTokenResult.token
-        }
-        dispatch(logInUser(payLoad))
+            currentUser(idTokenResult.token)
+            .then((res) =>{
+             const payLoad = {
+                 email:res.data.email,
+                 name:res.data.name,
+                 id:res.data._id,
+                 role:res.data.role,
+                 token:idTokenResult.token
+               }
+               dispatch(logInUser(payLoad))
+            } )
+            .catch(err => console.log(err));
       }
     })
     return () => unsubscribe();

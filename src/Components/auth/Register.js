@@ -1,6 +1,5 @@
 import React, { useState ,useEffect} from 'react';
 import {auth} from './firebase.config';
-
 import {toast} from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';

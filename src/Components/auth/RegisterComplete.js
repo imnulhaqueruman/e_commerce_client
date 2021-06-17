@@ -2,18 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from "react-router-dom";
 import {auth} from './firebase.config';
 import {toast} from 'react-toastify';
+import { useDispatch,useSelector } from "react-redux";
+import { createOrUpdateUser } from '../../functions/auth';
+import { logInUser } from "../../redux/action/action";
+
 const RegisterComplete = () => {
     const history = useHistory()
     console.log(history)
 
     const[email,setEmail] = useState('')
     const[password, setPassword] = useState('')
-
+    const {user} = useSelector((state) =>({...state}))
+    const dispatch = useDispatch();
     useEffect(() => {
         setEmail(window.localStorage.getItem("emailForRegistration"));
         // console.log(window.location.href);
         // console.log(window.localStorage.getItem("emailForRegistration"));
-      }, []);
+      }, [user]);
     
     const handleSubmit = async (e) =>{
         e.preventDefault()
@@ -40,6 +45,18 @@ const RegisterComplete = () => {
             // redux store
             console.log("user", user, "idTokenResult", idTokenResult);
             // redirect
+            createOrUpdateUser(idTokenResult.token)
+           .then((res) =>{
+            const payLoad = {
+                email:res.data.email,
+                name:res.data.name,
+                _id:res.data._id,
+                role:res.data.role,
+                token:idTokenResult.token
+              }
+              dispatch(logInUser(payLoad))
+           } )
+           .catch(err => console.log(err));
              history.push("/");
           }
         }
