@@ -17,7 +17,9 @@ import { useDispatch } from 'react-redux';
 import { auth } from './Components/auth/firebase.config';
 import { logInUser } from './redux/action/action';
 import ForgotPassword from './Components/auth/ForgotPassword';
-import currentUser from './functions/auth';
+import { currentUser } from './functions/auth';
+import History from './Components/user/History';
+import UserRoute from './Components/routes/UserRoute';
 function App() {
   const dispatch = useDispatch()
 
@@ -61,6 +63,9 @@ function App() {
           <Route path="/forgot/password">
             <ForgotPassword></ForgotPassword>
           </Route>
+          <UserRoute path="/user/history">
+            <History></History>
+          </UserRoute>
           <Route path="/">
              <Home></Home>
           </Route>
