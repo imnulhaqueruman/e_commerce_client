@@ -20,6 +20,9 @@ import ForgotPassword from './Components/auth/ForgotPassword';
 import { currentUser } from './functions/auth';
 import History from './Components/user/History';
 import UserRoute from './Components/routes/UserRoute';
+import Password from './Components/user/Password';
+import Wishlist from './Components/user/Wishlist';
+
 function App() {
   const dispatch = useDispatch()
 
@@ -65,6 +68,12 @@ function App() {
           </Route>
           <UserRoute path="/user/history">
             <History></History>
+          </UserRoute>
+          <UserRoute path="/user/password">
+            <Password></Password>
+          </UserRoute>
+          <UserRoute path="/user/wishlist">
+            <Wishlist></Wishlist>
           </UserRoute>
           <Route path="/">
              <Home></Home>

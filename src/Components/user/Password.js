@@ -1,21 +1,21 @@
 import React from 'react';
 import UserNav from '../Nav/UserNav';
 
-const History = () => {
+const Password = () => {
     return (
         <div className="container-fluid">
             <div className="row">
                 <div className="col-md-2">
                     <UserNav></UserNav>
                 </div>
-
-                 <div className="col">
-                   History Page 
-                 </div>
+                <div className="col ">
+                   User Password Update  Page 
+                </div>
+                
             </div>
-            
+           
         </div>
     );
 };
 
-export default History;
+export default Password;
