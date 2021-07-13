@@ -8,7 +8,8 @@ import {
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import {EditOutlined,DeleteOutlined} from"@ant-design/icons";
-
+import CategoryForm from '../../forms/CategoryForm';
+import LocalSearch from '../../forms/LocalSearch';
 const CategoryCreate = () => {
     const{user} = useSelector((state) =>({...state}))
 
@@ -16,6 +17,9 @@ const CategoryCreate = () => {
     const[loading,setLoading] = useState(false)
 
     const[categories,setCategories] = useState([])
+
+    // searching and filtering
+    const[keyWord,setKeyWord] = useState('')
 
     useEffect(() => {
         loadCategories();
@@ -67,6 +71,9 @@ const CategoryCreate = () => {
               });
           }
     }
+   
+    //step 4
+    const searched = (keyWord) => (c) => c.name.toLowerCase().includes(keyWord)
     return (
         <div className="container-fluid">
             <div className="row">
@@ -76,24 +83,21 @@ const CategoryCreate = () => {
 
                  <div className="col">
                    {loading?<h4 className="text-danger">Loading..</h4>:<h4>Create Category</h4>}
-                   <form onSubmit={handleSubmit}>
-                     <div className="form-group">
-                        <label>Name</label>
-                        <input type='text'
-                         className="form-control"
-                         onChange = {(e) => setName(e.target.value)}
-                          value={name}
-                          autoFocus
-                          required
+                   <CategoryForm 
+                    handleSubmit={handleSubmit}
+                    name={name} 
+                    setName={setName} 
+                    />
+                    {/* step 2 and step 3 */}
+                   <LocalSearch
+                    keyWord={keyWord}
+                    setKeyWord={setKeyWord}
+                     />
+                    
 
-                          />
-                          <br/>
-                        <button className="btn btn-outline-primary">Save</button>
-                     </div>
-
-                   </form>
                    <hr/>
-                   { categories.map((c) => (
+                   {/* step5 */}
+                   { categories.filter(searched(keyWord)).map((c) => (
                     <div className="alert alert-primary" key={c._id}>
                          {c.name}
                           <span onClick={() => handleRemove(c.slug)} className="btn btn-sm float-end">

@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import {EditOutlined,DeleteOutlined} from"@ant-design/icons";
 import { useHistory, useParams,useRouteMatch } from "react-router-dom";
-
+import CategoryForm from '../../forms/CategoryForm';
 const CategoryUpdate = () => {
     const history = useHistory();
     const {slug} = useParams();
@@ -78,22 +78,11 @@ const CategoryUpdate = () => {
 
                  <div className="col">
                    {loading?<h4 className="text-danger">Loading..</h4>:<h4>Update Category</h4>}
-                   <form onSubmit={handleSubmit}>
-                     <div className="form-group">
-                        <label>Name</label>
-                        <input type='text'
-                         className="form-control"
-                         onChange = {(e) => setName(e.target.value)}
-                          value={name}
-                          autoFocus
-                          required
-
-                          />
-                          <br/>
-                        <button className="btn btn-outline-primary">Save</button>
-                     </div>
-
-                   </form>
+                   <CategoryForm 
+                   handleSubmit={handleSubmit}
+                   name={name} 
+                   setName={setName} 
+                    />
                    <hr/>
                    
                  </div>
