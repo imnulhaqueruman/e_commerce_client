@@ -84,9 +84,10 @@ function App() {
           <AdminRoute path="/admin/category">
             <CategoryCreate></CategoryCreate>
           </AdminRoute>
-          <AdminRoute path="/admin/category/:slug">
-             <CategoryUpdate></CategoryUpdate>
+          <AdminRoute path="/admin/:slug">
+            <CategoryUpdate></CategoryUpdate>
           </AdminRoute>
+
           <Route path="/">
              <Home></Home>
           </Route>
