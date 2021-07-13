@@ -94,7 +94,7 @@ const Login = () => {
         })
         .catch(err =>{
             console.log(err)
-            toast.err(err.message)
+            toast.error(err.message)
         })
 
     }

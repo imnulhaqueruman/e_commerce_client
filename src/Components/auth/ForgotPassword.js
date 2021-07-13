@@ -15,7 +15,7 @@ const ForgotPassword = () => {
         if(user && user.token){
             history.push('/')
         }
-    },[user])
+    },[user,history])
 
     const handlePassword = async(e) =>{
         e.preventDefault()

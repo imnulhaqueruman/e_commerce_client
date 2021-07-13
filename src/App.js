@@ -20,9 +20,12 @@ import ForgotPassword from './Components/auth/ForgotPassword';
 import { currentUser } from './functions/auth';
 import History from './Components/user/History';
 import UserRoute from './Components/routes/UserRoute';
+import AdminRoute from './Components/routes/AdminRoute';
 import Password from './Components/user/Password';
 import Wishlist from './Components/user/Wishlist';
-
+import AdminDashboard from './Components/admin/AdminDashboard';
+import CategoryCreate from './Components/admin/Category/CategoryCreate';
+import CategoryUpdate from './Components/admin/Category/CategoryUpdate';
 function App() {
   const dispatch = useDispatch()
 
@@ -47,7 +50,7 @@ function App() {
     })
     return () => unsubscribe();
 
-  },[])
+  },[dispatch])
   return (
     <>
         <Header></Header>
@@ -75,6 +78,15 @@ function App() {
           <UserRoute path="/user/wishlist">
             <Wishlist></Wishlist>
           </UserRoute>
+          <AdminRoute path="/admin/dashboard">
+            <AdminDashboard></AdminDashboard>
+          </AdminRoute>
+          <AdminRoute path="/admin/category">
+            <CategoryCreate></CategoryCreate>
+          </AdminRoute>
+          <AdminRoute path="/admin/category/:slug">
+             <CategoryUpdate></CategoryUpdate>
+          </AdminRoute>
           <Route path="/">
              <Home></Home>
           </Route>
