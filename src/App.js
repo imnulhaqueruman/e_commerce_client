@@ -26,6 +26,7 @@ import Wishlist from './Components/user/Wishlist';
 import AdminDashboard from './Components/admin/AdminDashboard';
 import CategoryCreate from './Components/admin/Category/CategoryCreate';
 import CategoryUpdate from './Components/admin/Category/CategoryUpdate';
+import SubCreate from './Components/admin/Sub/SubCreate';
 function App() {
   const dispatch = useDispatch()
 
@@ -52,7 +53,7 @@ function App() {
 
   },[dispatch])
   return (
-    <>
+    <Router>
         <Header></Header>
         <ToastContainer/>
         <Switch>
@@ -84,15 +85,19 @@ function App() {
           <AdminRoute path="/admin/category">
             <CategoryCreate></CategoryCreate>
           </AdminRoute>
+          <AdminRoute path="/admin/sub">
+            <SubCreate></SubCreate>
+          </AdminRoute>
           <AdminRoute path="/admin/:slug">
             <CategoryUpdate></CategoryUpdate>
           </AdminRoute>
+          
 
           <Route path="/">
              <Home></Home>
           </Route>
         </Switch>
-    </>
+    </Router>
   );
 }
 
