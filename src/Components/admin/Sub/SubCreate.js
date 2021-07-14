@@ -5,6 +5,7 @@ import{getCategories} from '../../../functions/Category';
 import {
     createSub,
     getSub,
+    getSubs,
     removeSub} from '../../../functions/sub.js';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
@@ -19,16 +20,22 @@ const SubCreate = () => {
 
     const[categories,setCategories] = useState([])
     const[category,setCategory] = useState("")
+    const[subs,setSubs] = useState([])
 
     // searching and filtering
     const[keyWord,setKeyWord] = useState('')
 
     useEffect(() => {
         loadCategories();
+        loadSubs();
     }, [loading]);
     
     const loadCategories = () =>{
         getCategories().then((res) => setCategories(res.data));
+        console.log('call back call')
+     }
+     const loadSubs = () =>{
+        getSubs().then((res) => setSubs(res.data));
         console.log('call back call')
      }
 
@@ -44,7 +51,7 @@ const SubCreate = () => {
                     //console.log(res.data)
                     setName("")
                     toast.success(`"${res.data.name}" is created`)
-                    //loadCategories();
+                    loadSubs();
                 })
                 .catch(err =>{
                     setLoading(false)
@@ -63,7 +70,7 @@ const SubCreate = () => {
               .then((res) => {
                 setLoading(false);
                 toast.error(`${res.data.name} deleted`);
-                //loadCategories();
+                loadSubs();
               })
               .catch((err) => {
                 if (err.status === 400) {
@@ -105,7 +112,7 @@ const SubCreate = () => {
                         </select>
 
                     </div>
-                    {JSON.stringify(category)}
+                    
 
                    <CategoryForm 
                     handleSubmit={handleSubmit}
@@ -121,18 +128,18 @@ const SubCreate = () => {
 
                    <hr/>
                    {/* step5 */}
-                   {/* categories.filter(searched(keyWord)).map((c) => (
-                    <div className="alert alert-primary" key={c._id}>
-                         {c.name}
-                          <span onClick={() => handleRemove(c.slug)} className="btn btn-sm float-end">
+                   { subs.filter(searched(keyWord)).map((s) => (
+                    <div className="alert alert-primary" key={s._id}>
+                         {s.name}
+                          <span onClick={() => handleRemove(s.slug)} className="btn btn-sm float-end">
                              <DeleteOutlined className="text-danger"/>
                           </span>
-                        <Link to={`/admin/${c.slug}`}>
+                        <Link to={`/admin/${s.slug}`}>
                             <span className="btn btn-sm float-end">
                             <EditOutlined className="text-warning" />
                             </span>
                         </Link>
-                   </div>))*/}
+                   </div>))}
                  </div>
             </div>
             
