@@ -28,6 +28,8 @@ import CategoryCreate from './Components/admin/Category/CategoryCreate';
 import CategoryUpdate from './Components/admin/Category/CategoryUpdate';
 import SubCreate from './Components/admin/Sub/SubCreate';
 import SubUpdate from './Components/admin/Sub/SubUpdate';
+import ProductCreate from './Components/admin/Product/ProductCreate';
+
 function App() {
   const dispatch = useDispatch()
 
@@ -88,6 +90,9 @@ function App() {
           </AdminRoute>
           <AdminRoute path="/admin/sub">
             <SubCreate></SubCreate>
+          </AdminRoute>
+          <AdminRoute path ="/admin/product">
+            <ProductCreate></ProductCreate>
           </AdminRoute>
           <AdminRoute path="/adminSub/:slug">
             <SubUpdate></SubUpdate>
