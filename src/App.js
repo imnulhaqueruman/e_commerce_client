@@ -27,6 +27,7 @@ import AdminDashboard from './Components/admin/AdminDashboard';
 import CategoryCreate from './Components/admin/Category/CategoryCreate';
 import CategoryUpdate from './Components/admin/Category/CategoryUpdate';
 import SubCreate from './Components/admin/Sub/SubCreate';
+import SubUpdate from './Components/admin/Sub/SubUpdate';
 function App() {
   const dispatch = useDispatch()
 
@@ -87,6 +88,9 @@ function App() {
           </AdminRoute>
           <AdminRoute path="/admin/sub">
             <SubCreate></SubCreate>
+          </AdminRoute>
+          <AdminRoute path="/adminSub/:slug">
+            <SubUpdate></SubUpdate>
           </AdminRoute>
           <AdminRoute path="/admin/:slug">
             <CategoryUpdate></CategoryUpdate>

@@ -3,39 +3,44 @@ import AdminNav from '../../Nav/AdminNav';
 import { useSelector } from 'react-redux';
 import{getCategories} from '../../../functions/Category';
 import {
-    createSub,
     getSub,
-    getSubs,
-    removeSub} from '../../../functions/sub.js';
+    updateSub} from '../../../functions/sub.js';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
-import {EditOutlined,DeleteOutlined} from"@ant-design/icons";
+import { useHistory, useParams,useRouteMatch } from "react-router-dom";
 import CategoryForm from '../../forms/CategoryForm';
-import LocalSearch from '../../forms/LocalSearch';
-const SubCreate = () => {
+
+const SubUpdate = () => {
+
+    const history = useHistory();
+    const {slug} = useParams();
+    const match = useRouteMatch("/adminSub/:slug");
+
     const{user} = useSelector((state) =>({...state}))
 
     const[name,setName] = useState('')
     const[loading,setLoading] = useState(false)
 
     const[categories,setCategories] = useState([])
-    const[category,setCategory] = useState("")
-    const[subs,setSubs] = useState([])
+    const[parent,setParent] = useState("")
 
     // searching and filtering
-    const[keyWord,setKeyWord] = useState('')
+    //const[keyWord,setKeyWord] = useState('')
 
     useEffect(() => {
         loadCategories();
-        loadSubs();
-    }, [loading]);
+        loadSub();
+    }, []);
     
     const loadCategories = () =>{
         getCategories().then((res) => setCategories(res.data));
         console.log('call back call')
      }
-     const loadSubs = () =>{
-        getSubs().then((res) => setSubs(res.data));
+     const loadSub = () =>{
+        getSub(match.params.slug).then((s) =>{
+            setName(s.data.name)
+            setParent(s.data.parent)
+        });
         console.log('call back call')
      }
 
@@ -45,13 +50,13 @@ const SubCreate = () => {
            e.preventDefault();
            //console.log(name);
            setLoading(true);
-           createSub({name,parent:category}, user.token)
+           updateSub(match.params.slug,{name,parent}, user.token)
                 .then(res =>{
                     setLoading(false)
                     //console.log(res.data)
                     setName("")
-                    toast.success(`"${res.data.name}" is created`)
-                    loadSubs();
+                    toast.success(`"${res.data.name}" is Updated`)
+                    history.push('/admin/sub')
                 })
                 .catch(err =>{
                     setLoading(false)
@@ -63,7 +68,7 @@ const SubCreate = () => {
                     
                 })
     }
-    const handleRemove = async(slug) =>{
+    /*const handleRemove = async(slug) =>{
         if (window.confirm("Delete?")) {
             setLoading(true);
             removeSub(slug, user.token)
@@ -79,10 +84,10 @@ const SubCreate = () => {
                 }
               });
           }
-    }
+    }*/
    
     //step 4
-    const searched = (keyWord) => (c) => c.name.toLowerCase().includes(keyWord)
+    //const searched = (keyWord) => (c) => c.name.toLowerCase().includes(keyWord)
     return (
         <div className="container-fluid">
             <div className="row">
@@ -93,19 +98,18 @@ const SubCreate = () => {
                  <div className="col">
                    {loading?<h4 className="text-danger">
                        Loading..</h4>:
-                       <h4>Create SubCategory</h4>
+                       <h4>Update SubCategory</h4>
                     }
                     <div className="form-group">
                         <label>Parent Category</label>
                         <select name="category"
                          className="form-control" 
-                         onChange={(e) => setCategory(e.target.value)}
+                         onChange={(e) => setParent(e.target.value)}
                         >
-                          <option>Please Select</option>
                          {categories.length > 0 && 
                           categories.map((c) =>
                              <option key={c._id}
-                              value={c._id}>
+                              value={c._id} selected={c._id === parent}>
                               {c.name}
                               </option>
                          )}
@@ -120,26 +124,12 @@ const SubCreate = () => {
                     setName={setName} 
                     />
                     {/* step 2 and step 3 */}
-                   <LocalSearch
-                    keyWord={keyWord}
-                    setKeyWord={setKeyWord}
-                     />
+                  
                     
 
                    <hr/>
                    {/* step5 */}
-                   { subs.filter(searched(keyWord)).map((s) => (
-                    <div className="alert alert-primary" key={s._id}>
-                         {s.name}
-                          <span onClick={() => handleRemove(s.slug)} className="btn btn-sm float-end">
-                             <DeleteOutlined className="text-danger"/>
-                          </span>
-                        <Link to={`/adminSub/${s.slug}`}>
-                            <span className="btn btn-sm float-end">
-                            <EditOutlined className="text-warning" />
-                            </span>
-                        </Link>
-                   </div>))}
+                   
                  </div>
             </div>
             
@@ -147,4 +137,4 @@ const SubCreate = () => {
     );
 };
 
-export default SubCreate;
+export default SubUpdate;
