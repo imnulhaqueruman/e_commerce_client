@@ -7,7 +7,7 @@ const ProductCreateForm = ({handleSubmit,handleChange,values,handleCategoryChang
     const{title,description,price,categories,category,subs,shipping,quantity,images,colors,brands,color,brand} = values
     
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="mb-2">
             <div className="form-group">
             <label>Title</label>
             <input type="text" name="title" 
