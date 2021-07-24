@@ -24,6 +24,7 @@ const ProductCreate = () => {
     }
     const[values,setValues] = useState(initialState)
     const[subOptions,setSubOptions] = useState([])
+    const[showSub,setShowSub] = useState(false);
     //redux 
     const {user} = useSelector((state) =>({...state}))
     //destrucuture 
@@ -57,12 +58,13 @@ const ProductCreate = () => {
     const handleCategoryChange = (e) =>{
         e.preventDefault();
         console.log('CLicked Category',e.target.value);
-        setValues({...values,category: e.target.value});
+        setValues({...values,subs:[],category: e.target.value});
         getCategorySubs(e.target.value)
         .then(res =>{
             console.log('Sub options on category click', res)
             setSubOptions(res.data)
-        })
+        });
+        setShowSub(true);
     }
     return (
         <div className="container-fluid">
@@ -73,11 +75,14 @@ const ProductCreate = () => {
                 <div className="col-md-10">
                 <h4>Product Create</h4>
                 <hr/>
-                
+                {JSON.stringify(values.subs)}
                  <ProductCreateForm handleSubmit={handleSubmit}
                   handleChange={handleChange}
+                  setValues={setValues}
                   values={values}
                   handleCategoryChange={handleCategoryChange}
+                  subOptions={subOptions}
+                  showSub={showSub}
 
                  
                  />
