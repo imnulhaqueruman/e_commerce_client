@@ -2,6 +2,7 @@ import React from 'react';
 import Resizer from "react-image-file-resizer";
 import axios from 'axios';
 import {useSelector} from 'react-redux';
+import {Avatar, Badge} from 'antd';
 
 const FileUpload = ({values,setValues,setLoading}) => {
     const{user} = useSelector((state) =>({...state}));
@@ -33,7 +34,7 @@ const FileUpload = ({values,setValues,setLoading}) => {
                             }
                         )
                         .then(res =>{
-                            console.log('IMAGES UPLOAD RES DATA',res)
+                            console.log('IMAGES UPLOAD RES DATA',res.data)
                             setLoading(false)
                             allUploadedFiles.push(res.data);
 
@@ -51,18 +52,61 @@ const FileUpload = ({values,setValues,setLoading}) => {
           }
 
     }
+    const handleImageRemove = (public_id) =>{
+        setLoading(true)
+        //console.log('remove image', id)
+        axios.post(`${process.env.REACT_APP_API}/removeimages`, {public_id},{
+            headers:{
+                authtoken: user ? user.token :"",
+            },
+          }
+        )
+        .then(res=>{
+            setLoading(false)
+            const{images} = values
+            const filterImages = images.filter ( (item) =>{
+               return item.public_id !== public_id
+            });
+            setValues({...values,images:filterImages})
+        })
+        .catch(err =>{
+           console.log(err)
+           setLoading(false);
+           
+        })
+    }
     return (
-        <div className="row">
-            <label className="btn btn-secondary w-25">Choose File
-            <input
-            type="file"
-            multiple
-            hidden
-            accept="images/*"
-            onChange={fileUploadAndResize}
-             />
-             </label>
-        </div>
+        <>
+            <div className="row">
+              {
+                values.images && values.images.map((image) =>
+                    <Badge count="x"    key={image.public_id}
+                     onClick={() =>handleImageRemove(image.public_id)}
+                     style={{cursor:'pointer'}}
+                     >
+                        <Avatar 
+                     
+                        src={image.url}
+                        size={100}
+                        shape="square"
+                        className="ml-3"
+                    />
+                    </Badge>
+                   )
+              }
+            </div>
+            <div className="row mt-3">
+                <label className="btn btn-secondary w-25">Choose File
+                <input
+                type="file"
+                multiple
+                hidden
+                accept="images/*"
+                onChange={fileUploadAndResize}
+                />
+                </label>
+            </div>
+        </>
     );
 };
 
