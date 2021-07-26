@@ -30,6 +30,7 @@ import SubCreate from './Components/admin/Sub/SubCreate';
 import SubUpdate from './Components/admin/Sub/SubUpdate';
 import ProductCreate from './Components/admin/Product/ProductCreate';
 import AllProduct from './Components/admin/Product/AllProduct';
+import ProductUpdate from './Components/admin/Product/ProductUpdate';
 
 function App() {
   const dispatch = useDispatch()
@@ -94,6 +95,9 @@ function App() {
           </AdminRoute>
           <AdminRoute path ="/admin/product">
             <ProductCreate></ProductCreate>
+          </AdminRoute>
+          <AdminRoute path ="/admin/products-update/:slug">
+           <ProductUpdate></ProductUpdate>
           </AdminRoute>
           <AdminRoute path ="/admin/products">
             <AllProduct></AllProduct>
