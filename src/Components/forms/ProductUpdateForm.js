@@ -12,7 +12,8 @@ const ProductUpdateForm = ({
     categories,
     subOptions,
     arrayOfSubId,
-    setArrayOfSubId
+    setArrayOfSubId,
+    selectedCategory
    }) => {
     const{title,description,price,category,subs,shipping,quantity,images,colors,brands,color,brand} = values
     
@@ -97,8 +98,8 @@ const ProductUpdateForm = ({
                 <select name="category"
                          className="form-control" 
                          onChange={handleCategoryChange}
+                         value={selectedCategory ? selectedCategory : category._id}
                         >
-                    <option>{category ? category.name :'Please Select'}</option>
                          {categories.length > 0 && 
                           categories.map((c) =>
                              <option key={c._id}
