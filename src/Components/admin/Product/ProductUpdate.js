@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import AdminNav from '../../Nav/AdminNav';
 import { useSelector } from 'react-redux';
-import {getProduct} from '../../../functions/Product';
+import {getProduct,updateProduct} from '../../../functions/Product';
 import { toast } from 'react-toastify';
 import ProductCreateForm from '../../forms/ProductCreateForm';
 
@@ -28,6 +28,7 @@ const initialState = {
 const ProductUpdate = () => {
    // Router
     const{slug} = useParams()
+    const history = useHistory()
     const match = useRouteMatch("/admin/products-update/:slug");
 
 
@@ -75,6 +76,22 @@ const ProductUpdate = () => {
     }
     const handleSubmit = (e) =>{
         e.preventDefault();
+        setLoading(true)
+
+        values.subs = arrayOfSubId
+        values.category = selectedCategory ? selectedCategory : values.category;
+
+        updateProduct(slug,values,user.token)
+        .then(res =>{
+            setLoading(false)
+            toast.success(`${res.data.title} is updated`)
+            history.push('/admin/products')
+        })
+        .catch(err =>{
+            console.log(err)
+            setLoading(false)
+            //toast.error(err.response.data.err)
+        })
     }
 
     const handleChange = (e) =>{
