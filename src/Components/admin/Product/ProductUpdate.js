@@ -9,6 +9,7 @@ import {getCategories,getCategorySubs } from '../../../functions/Category';
 import FileUpload from '../../forms/FileUpload';
 import{LoadingOutlined} from '@ant-design/icons';
 import { useHistory, useParams,useRouteMatch } from "react-router-dom";
+import ProductUpdateForm from '../../forms/ProductUpdateForm';
 
 const initialState = {
     title:'',
@@ -45,6 +46,14 @@ const ProductUpdate = () => {
         .then((res) =>{
             setValues({...values, ...res.data});
         })
+    };
+    const handleSubmit = (e) =>{
+        e.preventDefault();
+    }
+
+    const handleChange = (e) =>{
+        setValues({...values,[e.target.name]:e.target.value});
+        console.log(e.target.name,'-----',e.target.value)
     }
    
     return (
@@ -55,7 +64,14 @@ const ProductUpdate = () => {
                 </div>
                 <div className="col-md-10">
                  <h4>Product Update</h4>
-                 {JSON.stringify(values)}
+                 {/*JSON.stringify(values)*/}
+                 <ProductUpdateForm
+                  handleSubmit={handleSubmit}
+                  handleChange={handleChange}
+                  setValues={setValues}
+                  values={values}
+                 
+                 />
                 <hr/>
                 </div>
             </div>
