@@ -5,20 +5,21 @@ import { Link } from 'react-router-dom';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import laptop from '../../images/laptop.png';
+import ProductListItem from './ProductListItem';
 
-const {Meta} = Card
 const SingleProduct = ({product}) => {
-    const{title,description,images,slug} = product
+    const{title,images} = product
     return (
         <>
             <div className="col-md-7">
                   { images && images.length ?
                       <Carousel showArrows={true}
-                      autoPlay 
-                      infiniteLoop
+                        autoPlay 
+                        infiniteLoop
                       >
                          {images && images.map(i =>
-                            <img src={i.url} key={i.public_id} alt=""/>)}
+                            <img src={i.url} key={i.public_id} alt=""/>)
+                         }
                      </Carousel> : 
                      <Card
                      cover={
@@ -34,23 +35,20 @@ const SingleProduct = ({product}) => {
                   }
             </div>
             <div className="col-md-5">
-               
+               <h1 className="bg-info p-3">{title}</h1>
                 <Card
-                  actions={[
-                    <>
-                      <ShoppingCartOutlined className="text-success"/>  Add to Cart
-                    </>,
-                    <Link to ='/'>
-                      <HeartOutlined className="text-info"/> <br/> Add to Wishlist
-                    </Link>,
-                ]}
+                    actions={[
+                        <>
+                        <ShoppingCartOutlined className="text-success"/>  Add to Cart
+                        </>,
+                        <Link to ='/'>
+                        <HeartOutlined className="text-info"/> <br/> Add to Wishlist
+                        </Link>,
+                    ]}
                 
                 >
-                   <Meta title={title}
-                    description={description}
-
-                    />
-                    <p>Price/category/subs/shipping/color/brand/quantity available/sold</p>
+                   
+                   <ProductListItem product={product}/>   
                 </Card>
             </div>
         </>
