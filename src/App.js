@@ -31,6 +31,7 @@ import SubUpdate from './Components/admin/Sub/SubUpdate';
 import ProductCreate from './Components/admin/Product/ProductCreate';
 import AllProduct from './Components/admin/Product/AllProduct';
 import ProductUpdate from './Components/admin/Product/ProductUpdate';
+import Product from './Components/Product';
 
 function App() {
   const dispatch = useDispatch()
@@ -74,6 +75,9 @@ function App() {
           </Route>
           <Route path="/forgot/password">
             <ForgotPassword></ForgotPassword>
+          </Route>
+          <Route path = '/products-update/:slug'>
+            <Product></Product>
           </Route>
           <UserRoute path="/user/history">
             <History></History>
