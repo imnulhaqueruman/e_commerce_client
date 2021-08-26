@@ -3,7 +3,7 @@ import {getProduct,productStar} from '../functions/Product';
 import {useParams } from "react-router-dom";
 import SingleProduct from './Cards/SingleProduct';
 import {useSelector} from 'react-redux';
-import LoadingToRedirect from './routes/LoadingToRedirect';
+
 
 const Product = () => {
     const[product,setProduct] = useState([])
