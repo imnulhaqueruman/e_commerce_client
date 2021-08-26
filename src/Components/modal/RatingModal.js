@@ -4,11 +4,15 @@ import{useSelector} from 'react-redux';
 import { StarOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { useHistory } from 'react-router-dom';
+import { useHistory,useParams } from 'react-router-dom';
 
 
 const RatingModal =({children}) => {
     let history = useHistory()
+    let {slug}= useParams()
+
+    console.log(slug)
+
     const {user} = useSelector((state) =>({...state}));
     const[modalVisible,setModalVisible] = useState(false);
     
@@ -17,7 +21,10 @@ const RatingModal =({children}) => {
             setModalVisible(true);
         }
         else{
-             history.push('/login')
+             history.push({
+               pathname:'/login',
+               state:{from:`/products-update/${slug}`},
+             })
         }
     }
     return (
