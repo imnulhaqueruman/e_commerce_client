@@ -2,6 +2,8 @@ import React from 'react';
 import Jumbotron from '../Cards/Jumbotron';
 import NewArrivals from './NewArrivals';
 import BestSellers from './BestSellers'
+import CategoryList from '../Category/CategoryList';
+
 const Home = () => {
 
     return (
@@ -20,6 +22,10 @@ const Home = () => {
           Best Sellers
         </h4>
         <BestSellers></BestSellers>
+        <h4 className="text-center p-3 mt-5 mb-5 display-3 bg-secondary">
+          Categories
+        </h4>
+        <CategoryList/>
 
         <br/>
         <br/>

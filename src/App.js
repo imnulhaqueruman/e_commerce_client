@@ -32,6 +32,7 @@ import ProductCreate from './Components/admin/Product/ProductCreate';
 import AllProduct from './Components/admin/Product/AllProduct';
 import ProductUpdate from './Components/admin/Product/ProductUpdate';
 import Product from './Components/Product';
+import CategoryHome from './Components/categoryHome/CategoryHome';
 
 function App() {
   const dispatch = useDispatch()
@@ -113,7 +114,9 @@ function App() {
             <CategoryUpdate></CategoryUpdate>
           </AdminRoute>
           
-
+          <Route exact path="/category/:slug">
+            <CategoryHome/>
+          </Route>
           <Route path="/">
              <Home></Home>
           </Route>

@@ -8,19 +8,26 @@ export const showAverage = (p) =>{
         let length = ratingsArray.length
         console.log('length',length)
 
-        ratingsArray.map((r) => total.push(r.star))
-        let totalReduced  = total.reduce((p, n) => p + n , 0)
-        //console.log(totalReduced)
+        ratingsArray.map((r) => total.push(r.star));
+        let totalReduced  = total.reduce((p, n) => p + n , 0);
+        console.log('totalReduced',totalReduced)
 
-        let height = length * 5;
-        // console.log(height)
-        let result = (totalReduced*5) / height;
+        let highest = (length * 5);
+        console.log('highest',highest)
+        let result = (totalReduced * 5) / highest;
         console.log('result', result)
 
         return (
-            <div className="text-danger pt-1 pb-3">
+            <div className="text-center pt-1 pb-3">
                 <span>
-                    <StarRating rating={result}/>
+                    <StarRating
+                     starDimension="20px"
+                     starSpacing="2px"
+                     starRatedColor="red"
+                     editing={false} 
+                     rating={result}/>
+                     {" "}
+                    ({p.ratings.length})
                 </span>
             </div>
         )
