@@ -3,6 +3,7 @@ import Jumbotron from '../Cards/Jumbotron';
 import NewArrivals from './NewArrivals';
 import BestSellers from './BestSellers'
 import CategoryList from '../Category/CategoryList';
+import SubList from '../Sub/SubList';
 
 const Home = () => {
 
@@ -26,6 +27,10 @@ const Home = () => {
           Categories
         </h4>
         <CategoryList/>
+        <h4 className="text-center p-3 mt-5 mb-5 display-3 bg-secondary">
+           Sub Categories
+        </h4>
+        <SubList/>
 
         <br/>
         <br/>

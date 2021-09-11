@@ -1,16 +1,16 @@
 import React,{useEffect,useState} from 'react';
 import { Link } from 'react-router-dom';
-import{getCategories} from '../../functions/Category';
+import{getSubs} from '../../functions/sub';
 
-const CategoryList = () => {
-    const[categories,setCategories] = useState([])
+const SubList = () => {
+    const[subs,setSubs] = useState([])
     const[loading,setLoading] = useState(false)
 
     useEffect(() =>{
         setLoading(true)
-        getCategories().then(c =>{
+        getSubs().then(c =>{
             console.log('categories',c)
-            setCategories(c.data)
+            setSubs(c.data)
             setLoading(false)
         })
     },[]);
@@ -18,9 +18,9 @@ const CategoryList = () => {
         <div className="container">
             <div className="row">
                {loading ? <h4 className="text-center">Loading...</h4> : 
-                    categories.map((c) =>
-                        <div key={c._id} className=" col btn btn-outline-success btn-lg btn-block  m-3">
-                                <Link className="text-dark" to={`/category/${c.slug}`}>{c.name}</Link>
+                    subs.map((s) =>
+                        <div key={s._id} className=" col btn btn-outline-success btn-lg btn-block  m-3">
+                                <Link className="text-dark" to={`/sub/${s.slug}`}>{s.name}</Link>
                         </div>  )   
                }
             </div>
@@ -28,4 +28,4 @@ const CategoryList = () => {
     );
 };
 
-export default CategoryList;
+export default SubList;
