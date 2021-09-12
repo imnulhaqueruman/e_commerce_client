@@ -4,6 +4,7 @@ import {AppstoreOutlined, SettingOutlined, UserAddOutlined, UserOutlined,LogoutO
 import { Link, useHistory } from 'react-router-dom';
 import firebase from 'firebase';
 import { useDispatch, useSelector } from 'react-redux';
+import Search from '../forms/Search';
 
 const { SubMenu } = Menu;
 const Header = () => {
@@ -53,7 +54,9 @@ const Header = () => {
         </SubMenu>
         }
        
-        
+        <span className="float-end">
+          <Search/>
+        </span>
       </Menu>
     );
 };
