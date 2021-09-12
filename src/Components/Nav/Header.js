@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Menu } from 'antd';
-import {AppstoreOutlined, SettingOutlined, UserAddOutlined, UserOutlined,LogoutOutlined } from '@ant-design/icons';
+import {AppstoreOutlined, SettingOutlined,ShoppingOutlined, UserAddOutlined, UserOutlined,LogoutOutlined } from '@ant-design/icons';
 import { Link, useHistory } from 'react-router-dom';
 import firebase from 'firebase';
 import { useDispatch, useSelector } from 'react-redux';
@@ -33,6 +33,9 @@ const Header = () => {
         <Menu.Item key="home" icon={<AppstoreOutlined/>}>
           <Link to="/">Home</Link>
         </Menu.Item>
+        <Menu.Item key="shop" icon={<ShoppingOutlined/>}>
+          <Link to="/shop">Shop</Link>
+        </Menu.Item>
 
         {!user && <Menu.Item key="register" icon={<UserAddOutlined/>} className="float-end">
           <Link to="/register">Register</Link>
@@ -54,9 +57,11 @@ const Header = () => {
         </SubMenu>
         }
        
-        <span className="float-end">
+       <Menu.Item key="Search" className="float-end">
+        <span>
           <Search/>
         </span>
+       </Menu.Item>
       </Menu>
     );
 };

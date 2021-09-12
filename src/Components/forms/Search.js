@@ -21,8 +21,8 @@ const Search = () => {
         history.push(`/shop?${text}`)
     }
     return (
-        <div>
-            <form className="form-inline my-2 my-lg-0" onSubmit={handleSubmit}>
+        <>
+            <form className="form-inline my-2  d-flex" onSubmit={handleSubmit}>
                <input
                 onChange={handleChange}
                 type="search"
@@ -30,9 +30,9 @@ const Search = () => {
                 className="form-control"
                 placeholder="Search"
                  />
-                <SearchOutlined onClick={handleSubmit} style={{cursor:'pointer'}} />
+                <SearchOutlined onClick={handleSubmit} style={{cursor:'pointer',padding:'3px',alignItems:'center'}} />
             </form>
-        </div>
+        </>
     );
 };
 
