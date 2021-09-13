@@ -2,8 +2,10 @@ import React,{useState,useEffect} from 'react';
 import{getProductsByCount,fetchProductsByFilter } from '../functions/Product';
 import {useSelector,useDispatch} from 'react-redux';
 import ProductCard from './Cards/ProductCard';
-import {Menu,Slider} from "antd";
-import {DollarOutlined} from '@ant-design/icons';
+import {Menu,Slider,Checkbox} from "antd";
+import {DollarOutlined,DownSquareOutlined} from '@ant-design/icons';
+import{getCategories} from '../functions/Category';
+
 
 const {SubMenu,ItemGroup} = Menu;
 const Shop = () => {
@@ -11,6 +13,8 @@ const Shop = () => {
     const[loading,setLoading] = useState(false);
     const[price,setPrice] = useState([0,0]);
     const[ok,setOk] = useState(false);
+    const[categories,setCategories] = useState([]);
+    const[categoriesIds,setCategoriesIds] = useState([])
 
     let dispatch = useDispatch() ;
     let {search} = useSelector((state) =>({...state}));
@@ -19,6 +23,8 @@ const Shop = () => {
 
     useEffect(() =>{
         loadAllProducts()
+        //fetch categories product
+        getCategories().then((res) => setCategories(res.data))
     },[])
 // 1. load default products by default on page load 
     const fetchProducts = (arg) =>{
@@ -26,6 +32,7 @@ const Shop = () => {
             setProducts(res.data);
         })
     };
+    
     const loadAllProducts = () =>{
         getProductsByCount(12).then(p =>{
             setProducts(p.data);
@@ -53,11 +60,38 @@ const Shop = () => {
             type:"SEARCH_QUERY",
             payLoad:{text:""},
         })
+        setCategoriesIds([]);
          setPrice(value);
          setTimeout(() =>{
              setOk(!ok)
          },300)
     }
+    // 4.load products based on categories 
+
+    // handle check for categories 
+    const handleCheck= e =>{
+        dispatch({
+            type:"SEARCH_QUERY",
+            payLoad:{text:""},
+        })
+        setPrice([0,0]);
+       //console.log(e.target.value)
+       let inTheState = [...categoriesIds];
+       let justChecked = e.target.value;
+       let foundInTheState = inTheState.indexOf(justChecked) // index / - 1
+
+       // if not found returns -1 else returns index 
+          if(foundInTheState === -1){
+              inTheState.push(justChecked)
+          } else{
+              // if found pull out item from index
+              inTheState.splice(foundInTheState,1);
+          }
+        setCategoriesIds(inTheState);
+        //console.log(inTheState);
+        fetchProducts({category:inTheState})
+    }
+
     
     return (
         <div className="container-fluid">
@@ -66,6 +100,7 @@ const Shop = () => {
                   <h4>Search/Filter</h4>
                     <hr/>
                   <Menu defaultOpenKeys={['1','2']} mode="inline">
+                      {/* price*/}
                        <SubMenu key='1' title={<span className="h6">
                            <DollarOutlined/> Price
                            </span>
@@ -79,6 +114,30 @@ const Shop = () => {
                                 max="4999"
   
                               />
+                          </div>
+                       </SubMenu>
+
+                       {/*categories*/}
+                       <SubMenu key='2' title={<span className="h6">
+                           <DownSquareOutlined/> Categories
+                           </span>
+                        }>
+                          <div style={{marginTop:'-10px'}}>
+                              { categories.map((c) =>
+                                <div key={c._id}>
+                                  <Checkbox
+                                  onChange={handleCheck}
+                                   className="pb-2 ps-4 pe-4"
+                                   value={c._id}
+                                   name="category"
+                                   checked={categoriesIds.includes(c._id)}
+                                   >
+                                      {c.name}
+                                  </Checkbox>
+                                </div>
+                               )
+                               }
+                               
                           </div>
                        </SubMenu>
                   </Menu>
