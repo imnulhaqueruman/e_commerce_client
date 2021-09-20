@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react';
 import{getProductsByCount,fetchProductsByFilter } from '../functions/Product';
 import {useSelector,useDispatch} from 'react-redux';
 import ProductCard from './Cards/ProductCard';
-import {Menu,Slider,Checkbox} from "antd";
+import {Menu,Slider,Checkbox,Radio} from "antd";
 import { DollarOutlined, DownSquareOutlined, StarOutlined } from '@ant-design/icons';
 import{getCategories} from '../functions/Category';
 import{getSubs} from '../functions/sub';
@@ -18,7 +18,10 @@ const Shop = () => {
     const[categoriesIds,setCategoriesIds] = useState([])
     const[star,setStar] = useState('')
     const[subs,setSubs] = useState([])
-    const[sub,setSub] = useState('')
+    const[sub,setSub] = useState('');
+    const[brands,setBrands] = useState(["Apple","Samsung","Microsoft","Lenovo","ASUS"])
+    const[brand,setBrand] = useState("")
+
 
     let dispatch = useDispatch() ;
     let {search} = useSelector((state) =>({...state}));
@@ -70,6 +73,7 @@ const Shop = () => {
         setCategoriesIds([]);
         setPrice(value);
         setStar("")
+        setBrand("")
         setSub('')
          setTimeout(() =>{
              setOk(!ok)
@@ -86,6 +90,7 @@ const Shop = () => {
         // reset 
         setPrice([0,0]);
         setSub('')
+        setBrand("")
         setStar("")
        //console.log(e.target.value)
        let inTheState = [...categoriesIds];
@@ -113,6 +118,7 @@ const Shop = () => {
             })
           setPrice([0,0]);
           setSub('')
+          setBrand("")
           setCategoriesIds([])
           setStar(num)
           fetchProducts({stars: num})
@@ -128,8 +134,22 @@ const Shop = () => {
         setPrice([0,0]);
         setCategoriesIds([])
         setStar("")
+        setBrand("")
         fetchProducts({sub})
 
+    };
+    // 7. show products based on brand name 
+    const handleBrand = (e) =>{
+        setBrand(e.target.value)
+        setSub("")
+        dispatch({
+            type:"SEARCH_QUERY",
+            payLoad:{text:""},
+        })
+        setPrice([0,0]);
+        setCategoriesIds([])
+        setStar("")
+        fetchProducts({brand : e.target.value})
     }
     return (
         <div className="container-fluid">
@@ -137,7 +157,7 @@ const Shop = () => {
               <div className="col-md-3 pt-2">
                   <h4>Search/Filter</h4>
                     <hr/>
-                  <Menu defaultOpenKeys={['1','2','3','4']} mode="inline">
+                  <Menu defaultOpenKeys={['1','2','3','4','5']} mode="inline">
                       {/* price*/}
                        <SubMenu key='1' title={<span className="h6">
                            <DollarOutlined/> Price
@@ -234,6 +254,31 @@ const Shop = () => {
                                       {s.name}
                                   {/* </Checkbox> */}
                                 </div>
+                               )
+                               }
+                               
+                          </div>
+                       </SubMenu>
+                       {/* brands */}
+                       <SubMenu key='5' title={
+                           <span className="h6">
+                              <DownSquareOutlined/> Brands
+                           </span>
+                        }>
+                          <div style={{marginTop:'-10px'}} className="  pe-5">
+                              { brands.map((b) =>
+                                 <Radio
+                                   value = {b}
+                                   name={b}
+                                   checked={b === brand}
+                                   onChange={handleBrand}
+                                   className="pb-1 ps-4 pe-4"
+                                 
+                                 >
+                                  {b}
+                                </Radio>
+
+                               
                                )
                                }
                                
