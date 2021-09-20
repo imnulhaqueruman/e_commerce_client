@@ -21,7 +21,8 @@ const Shop = () => {
     const[sub,setSub] = useState('');
     const[brands,setBrands] = useState(["Apple","Samsung","Microsoft","Lenovo","ASUS"])
     const[brand,setBrand] = useState("")
-
+    const[colors,setColors] = useState(["Black","Brown","Silver","White","Blue"])
+    const[color,setColor] = useState('')
 
     let dispatch = useDispatch() ;
     let {search} = useSelector((state) =>({...state}));
@@ -75,6 +76,7 @@ const Shop = () => {
         setStar("")
         setBrand("")
         setSub('')
+        setColor('')
          setTimeout(() =>{
              setOk(!ok)
          },300)
@@ -92,6 +94,7 @@ const Shop = () => {
         setSub('')
         setBrand("")
         setStar("")
+        setColor('')
        //console.log(e.target.value)
        let inTheState = [...categoriesIds];
        let justChecked = e.target.value;
@@ -121,6 +124,7 @@ const Shop = () => {
           setBrand("")
           setCategoriesIds([])
           setStar(num)
+          setColor("")
           fetchProducts({stars: num})
       };
     //6 show products by sub category
@@ -135,6 +139,7 @@ const Shop = () => {
         setCategoriesIds([])
         setStar("")
         setBrand("")
+        setColor("")
         fetchProducts({sub})
 
     };
@@ -149,7 +154,22 @@ const Shop = () => {
         setPrice([0,0]);
         setCategoriesIds([])
         setStar("")
+        setColor('')
         fetchProducts({brand : e.target.value})
+    };
+    // 8 show products based on color 
+    const handleColor = (e) =>{
+        setColor(e.target.value)
+        setBrand('')
+        setSub("")
+        dispatch({
+            type:"SEARCH_QUERY",
+            payLoad:{text:""},
+        })
+        setPrice([0,0]);
+        setCategoriesIds([])
+        setStar("")
+        fetchProducts({color : e.target.value})
     }
     return (
         <div className="container-fluid">
@@ -157,7 +177,7 @@ const Shop = () => {
               <div className="col-md-3 pt-2">
                   <h4>Search/Filter</h4>
                     <hr/>
-                  <Menu defaultOpenKeys={['1','2','3','4','5']} mode="inline">
+                  <Menu defaultOpenKeys={['1','2','3','4','5','6']} mode="inline">
                       {/* price*/}
                        <SubMenu key='1' title={<span className="h6">
                            <DollarOutlined/> Price
@@ -272,18 +292,42 @@ const Shop = () => {
                                    name={b}
                                    checked={b === brand}
                                    onChange={handleBrand}
-                                   className="pb-1 ps-4 pe-4"
+                                   className="pb-2 ps-4 pe-4"
                                  
                                  >
                                   {b}
                                 </Radio>
-
-                               
                                )
                                }
                                
                           </div>
                        </SubMenu>
+                        {/* colors*/}
+                       <SubMenu key='6' title={
+                           <span className="h6">
+                              <DownSquareOutlined/> Colors
+                           </span>
+                        }>
+                          <div style={{marginTop:'-10px'}} className="  pe-5">
+                              { colors.map((c) =>
+                                 <Radio
+                                   value = {c}
+                                   name={c}
+                                   checked={c === color}
+                                   onChange={handleColor}
+                                   className="pb-2 ps-4 pe-4"
+                                 
+                                 >
+                                  {c}
+                                </Radio>
+                               )
+                               }
+                               
+                          </div>
+                       </SubMenu>
+
+
+                       
                   </Menu>
               </div>
               <div className="col-md-9 pt-2">
