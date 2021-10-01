@@ -23,6 +23,7 @@ const Shop = () => {
     const[brand,setBrand] = useState("")
     const[colors,setColors] = useState(["Black","Brown","Silver","White","Blue"])
     const[color,setColor] = useState('')
+    const[shipping,setShipping] = useState("");
 
     let dispatch = useDispatch() ;
     let {search} = useSelector((state) =>({...state}));
@@ -77,6 +78,7 @@ const Shop = () => {
         setBrand("")
         setSub('')
         setColor('')
+        setShipping('')
          setTimeout(() =>{
              setOk(!ok)
          },300)
@@ -95,6 +97,7 @@ const Shop = () => {
         setBrand("")
         setStar("")
         setColor('')
+        setShipping('')
        //console.log(e.target.value)
        let inTheState = [...categoriesIds];
        let justChecked = e.target.value;
@@ -125,6 +128,7 @@ const Shop = () => {
           setCategoriesIds([])
           setStar(num)
           setColor("")
+          setShipping('')
           fetchProducts({stars: num})
       };
     //6 show products by sub category
@@ -140,6 +144,7 @@ const Shop = () => {
         setStar("")
         setBrand("")
         setColor("")
+        setShipping('')
         fetchProducts({sub})
 
     };
@@ -155,6 +160,7 @@ const Shop = () => {
         setCategoriesIds([])
         setStar("")
         setColor('')
+        setShipping('')
         fetchProducts({brand : e.target.value})
     };
     // 8 show products based on color 
@@ -169,7 +175,23 @@ const Shop = () => {
         setPrice([0,0]);
         setCategoriesIds([])
         setStar("")
+        setShipping('')
         fetchProducts({color : e.target.value})
+    }
+    // show products based on shipping yes/no
+    const handleShipping = (e) =>{
+      setShipping(e.target.value)
+      setColor('')
+      setBrand('')
+      setSub("")
+      dispatch({
+          type:"SEARCH_QUERY",
+          payLoad:{text:""},
+      })
+      setPrice([0,0]);
+      setCategoriesIds([])
+      setStar("")
+      fetchProducts({shipping : e.target.value})
     }
     return (
         <div className="container-fluid">
@@ -303,7 +325,7 @@ const Shop = () => {
                           </div>
                        </SubMenu>
                         {/* colors*/}
-                       <SubMenu key='6' title={
+                      <SubMenu key='6' title={
                            <span className="h6">
                               <DownSquareOutlined/> Colors
                            </span>
@@ -324,7 +346,33 @@ const Shop = () => {
                                }
                                
                           </div>
-                       </SubMenu>
+                      </SubMenu>
+                       {/* Shipping*/}
+                       <SubMenu key='7' title={
+                           <span className="h6">
+                              <DownSquareOutlined/> Shipping
+                           </span>
+                        }>
+                          <>
+                          <Checkbox 
+                           className="pb-2 ps-4 pe-4"
+                           onChange={handleShipping}
+                           value="Yes"
+                            checked={shipping === 'Yes'}
+                           >
+                              Yes
+                          </Checkbox>
+
+                           <Checkbox 
+                           className="pb-2 ps-4 pe-4"
+                           onChange={handleShipping}
+                           value="No"
+                            checked={shipping === 'No'}
+                           >
+                             No
+                          </Checkbox>
+                          </>
+                      </SubMenu>
 
 
                        
