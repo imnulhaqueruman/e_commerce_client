@@ -37,7 +37,7 @@ const Header = () => {
           <Link to="/shop">Shop</Link>
         </Menu.Item>
         <Menu.Item key="cart" icon={<ShoppingCartOutlined/>}>
-          <Link to="/shop">
+          <Link to="/cart">
             <Badge count={cart.length} offset={[9,0]}>
               Cart
             </Badge>
