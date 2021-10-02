@@ -19,23 +19,7 @@ const Cart = () => {
             //
     }
     const showCartItems = () =>{
-       <table className="table table-bordered">
-           <thead className="thead-light">
-               <tr>
-                   <th scope="col">Image</th>
-                   <th scope="col">Title</th>
-                   <th scope="col">Price</th>
-                   <th scope="col">Brand</th>
-                   <th scope="col">Color</th>
-                   <th scope="col">Count</th>
-                   <th scope="col">Shipping</th>
-                   <th scope="col">Remove</th>
-               </tr>
-           </thead>
-           {cart.map((p) =>(
-               <ProductCardInCheckOut key={p._id} p={p}/>
-           ))}
-       </table>
+       
     }
     return (
         <div className="container-fluid pt-2">
@@ -49,7 +33,25 @@ const Cart = () => {
                             Continue shopping
                     </Link>
                     </h4>
-                    :(showCartItems())
+                    :(
+                        <table className="table table-bordered">
+                                <thead className="thead-light">
+                                    <tr>
+                                        <th scope="col">Image</th>
+                                        <th scope="col">Title</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Brand</th>
+                                        <th scope="col">Color</th>
+                                        <th scope="col">Count</th>
+                                        <th scope="col">Shipping</th>
+                                        <th scope="col">Remove</th>
+                                    </tr>
+                                </thead>
+                                {cart.map((p) =>(
+                                    <ProductCardInCheckOut key={p._id} p={p}/>
+                                ))}
+                        </table>
+                    )
                 
                 }
              </div>
