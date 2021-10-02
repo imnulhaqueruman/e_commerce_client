@@ -1,5 +1,5 @@
-import React from 'react';
-import {Card} from 'antd';
+import React,{useState} from 'react';
+import {Card,Tooltip} from 'antd';
 import laptop from '../../images/laptop.png';
 import { EyeOutlined,ShoppingCartOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
@@ -8,8 +8,10 @@ import { showAverage } from '../../functions/rating';
 import _ from "lodash";
 const{Meta} = Card;
 const ProductCard = ({product}) => {
+    const[toolTip, setToolTip] = useState('Click to add');
     const{images,title,description,slug,price} = product
     const handleAddToCart = () =>{
+
         // create cart array 
         let cart = []
         if(typeof window !== 'undefined'){
@@ -27,7 +29,8 @@ const ProductCard = ({product}) => {
             // save to local storage 
             console.log('unique', unique)
             localStorage.setItem('cart', JSON.stringify(unique))
-
+           // show tooltip 
+           setToolTip('Added');
 
         }
     }
@@ -55,7 +58,11 @@ const ProductCard = ({product}) => {
                 <Link to={`/products-update/${slug}`}>
                         <EyeOutlined className="text-warning"/> <br/> View Product
                 </Link>,
-                    <a onClick={handleAddToCart}><ShoppingCartOutlined  className="text-danger"/> <br/> Add to Cart</a>
+                    <Tooltip title={toolTip}>
+                        <a onClick={handleAddToCart}>
+                            <ShoppingCartOutlined  className="text-danger"/> 
+                            <br/> Add to Cart</a>
+                    </Tooltip>
                 ]
             }
         >
