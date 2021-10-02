@@ -1,6 +1,8 @@
 import React,{useState} from 'react';
 import{useSelector,useDispatch} from 'react-redux';
 import { Link } from 'react-router-dom';
+import ProductCardInCheckOut from './Cards/ProductCardInCheckOut';
+
 
 
 const Cart = () => {
@@ -14,7 +16,26 @@ const Cart = () => {
         },0)
     }
     const saveOrderToDb = () =>{
-
+            //
+    }
+    const showCartItems = () =>{
+       <table className="table table-bordered">
+           <thead className="thead-light">
+               <tr>
+                   <th scope="col">Image</th>
+                   <th scope="col">Title</th>
+                   <th scope="col">Price</th>
+                   <th scope="col">Brand</th>
+                   <th scope="col">Color</th>
+                   <th scope="col">Count</th>
+                   <th scope="col">Shipping</th>
+                   <th scope="col">Remove</th>
+               </tr>
+           </thead>
+           {cart.map((p) =>(
+               <ProductCardInCheckOut key={p._id} p={p}/>
+           ))}
+       </table>
     }
     return (
         <div className="container-fluid pt-2">
@@ -28,7 +49,7 @@ const Cart = () => {
                             Continue shopping
                     </Link>
                     </h4>
-                    :<h4>showed your items</h4>
+                    :(showCartItems())
                 
                 }
              </div>
@@ -49,7 +70,7 @@ const Cart = () => {
                        <button 
                          onClick={saveOrderToDb}
                          className="btn btn-sm btn-success mt-2"
-                         disabled={cart.length}
+                         disabled={!cart.length}
                         >
                             Proceed to checkout
                        </button>
