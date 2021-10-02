@@ -199,7 +199,7 @@ const Shop = () => {
               <div className="col-md-3 pt-2">
                   <h4>Search/Filter</h4>
                     <hr/>
-                  <Menu defaultOpenKeys={['1','2','3','4','5','6']} mode="inline">
+                  <Menu defaultOpenKeys={['1','2','3','4','5','6','7']} mode="inline">
                       {/* price*/}
                        <SubMenu key='1' title={<span className="h6">
                            <DollarOutlined/> Price

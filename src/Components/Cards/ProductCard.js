@@ -4,12 +4,17 @@ import laptop from '../../images/laptop.png';
 import { EyeOutlined,ShoppingCartOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { showAverage } from '../../functions/rating';
+import {useSelector,useDispatch} from 'react-redux';
 
 import _ from "lodash";
 const{Meta} = Card;
 const ProductCard = ({product}) => {
     const[toolTip, setToolTip] = useState('Click to add');
-    const{images,title,description,slug,price} = product
+    const{images,title,description,slug,price} = product;
+    // redux 
+    const {user} = useSelector((state) =>({...state}))
+    const dispatch = useDispatch()
+
     const handleAddToCart = () =>{
 
         // create cart array 
@@ -31,7 +36,11 @@ const ProductCard = ({product}) => {
             localStorage.setItem('cart', JSON.stringify(unique))
            // show tooltip 
            setToolTip('Added');
-
+          // add to redux state 
+          dispatch({
+              type:"ADD_TO_CART",
+              payLoad: unique,
+          })
         }
     }
     return (
