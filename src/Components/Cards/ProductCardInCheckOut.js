@@ -2,10 +2,14 @@ import React from 'react';
 import { Image } from 'antd';
 import laptop from '../../images/laptop.png';
 import{useDispatch} from 'react-redux'
+import { toast } from 'react-toastify';
 
 const ProductCardInCheckOut = ({p}) =>{
     const colors = ["Black","Brown","Silver","White","Blue"]
     let dispatch = useDispatch()
+
+
+    // color change function 
     const handleColorChange = (e) =>{
      console.log(e.target.value)
      let cart = []
@@ -25,7 +29,35 @@ const ProductCardInCheckOut = ({p}) =>{
            payLoad:cart
         })
      }
+    
     }
+    // count function 
+    const handleQuantityCount = (e) =>{
+        console.log('quantity',p.quantity)
+        
+        let count = e.target.value < 1 ? 1:e.target.value;
+        if(count > p.quantity){
+            toast.error(`Max available quantity:${p.quantity}`)
+            return;
+        }
+
+        let cart = []
+        if(typeof window !== 'undefined'){
+            if(localStorage.getItem('cart')){
+                cart = JSON.parse(localStorage.getItem('cart'));
+            }
+            cart.map((product,i) => {
+               if(product._id === p._id){
+                cart[i].count = count;
+               }
+            });
+            localStorage.setItem('cart', JSON.stringify(cart))
+            dispatch({
+                type:'ADD_TO_CART',
+                payLoad:cart
+             })
+        }
+      }
     return(
         <tbody>
             <tr>
@@ -55,7 +87,14 @@ const ProductCardInCheckOut = ({p}) =>{
                       }
                     </select>
                 </td>
-                <td>{p.count}</td>
+                <td className="text-center">
+                    <input
+                      type="number"
+                      className="form-control" 
+                      value={p.count}
+                      onChange={handleQuantityCount}
+                    />
+                </td>
                 <td>shipping</td>
                 <td>Remove</td>
             </tr>
