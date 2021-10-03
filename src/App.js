@@ -36,6 +36,7 @@ import CategoryHome from './Components/categoryHome/CategoryHome';
 import SubHome from './Components/SubHome/SubHome';
 import Shop from './Components/Shop';
 import Cart from './Components/Cart';
+import SideDrawer from './Components/drawer/SideDrawer';
 
 function App() {
   const dispatch = useDispatch()
@@ -64,7 +65,8 @@ function App() {
   },[dispatch])
   return (
     <Router>
-        <Header></Header>
+        <Header/>
+        <SideDrawer/>
         <ToastContainer/>
         <Switch>
          
@@ -129,6 +131,7 @@ function App() {
           <Route exact path="/cart">
             <Cart/>
           </Route>
+        
           <Route path="/">
              <Home></Home>
           </Route>

@@ -3,6 +3,7 @@ import { Image } from 'antd';
 import laptop from '../../images/laptop.png';
 import{useDispatch} from 'react-redux'
 import { toast } from 'react-toastify';
+import{CheckCircleOutlined,CloseCircleOutlined,CloseOutlined} from '@ant-design/icons'
 
 const ProductCardInCheckOut = ({p}) =>{
     const colors = ["Black","Brown","Silver","White","Blue"]
@@ -57,7 +58,27 @@ const ProductCardInCheckOut = ({p}) =>{
                 payLoad:cart
              })
         }
-      }
+    }
+    const handleRemove = () =>{
+        //console.log(p._id,'to remove')
+        let cart = []
+        if(typeof window !== 'undefined'){
+            if(localStorage.getItem('cart')){
+                cart = JSON.parse(localStorage.getItem('cart'));
+            }
+            //[1,2,3,4,5]
+            cart.map((product,i) => {
+               if(product._id === p._id){
+                cart.splice(i,1);
+               }
+            });
+            localStorage.setItem('cart', JSON.stringify(cart))
+            dispatch({
+                type:'ADD_TO_CART',
+                payLoad:cart
+             })
+        }
+    }
     return(
         <tbody>
             <tr>
@@ -87,16 +108,23 @@ const ProductCardInCheckOut = ({p}) =>{
                       }
                     </select>
                 </td>
-                <td className="text-center">
+                <td className="text-center ps-2 pe-2">
                     <input
                       type="number"
-                      className="form-control" 
+                      class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"
                       value={p.count}
                       onChange={handleQuantityCount}
                     />
                 </td>
-                <td>shipping</td>
-                <td>Remove</td>
+                <td className="text-center">
+                    {p.shipping === 'Yes'?
+                       <CheckCircleOutlined className="text-success"/>
+                       :<CloseCircleOutlined className="text-danger"/> 
+                    }
+                </td>
+                <td className="text-center">
+                    <CloseOutlined className="text-danger pointer" onClick={handleRemove}/>
+                </td>
             </tr>
         </tbody>
     )
