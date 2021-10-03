@@ -47,7 +47,12 @@ const SingleProduct = ({product,onStarClick,star}) => {
           dispatch({
               type:"ADD_TO_CART",
               payLoad: unique,
-          })
+          });
+          // show cart items in side drawer
+          dispatch({
+            type:"SET_VISIBLE",
+            payLoad:true,
+          });
         }
     }
     return (

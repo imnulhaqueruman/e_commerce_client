@@ -12,6 +12,7 @@ import Home from './Components/Home/Home';
 import Login from './Components/auth/Login';
 import Register from './Components/auth/Register';
 import Header from './Components/Nav/Header';
+import SideDrawer from './Components/drawer/SideDrawer';
 import RegisterComplete from './Components/auth/RegisterComplete';
 import { useDispatch } from 'react-redux';
 import { auth } from './Components/auth/firebase.config';
@@ -36,7 +37,7 @@ import CategoryHome from './Components/categoryHome/CategoryHome';
 import SubHome from './Components/SubHome/SubHome';
 import Shop from './Components/Shop';
 import Cart from './Components/Cart';
-import SideDrawer from './Components/drawer/SideDrawer';
+
 
 function App() {
   const dispatch = useDispatch()
