@@ -2,12 +2,14 @@ import React,{useState} from 'react';
 import{useSelector,useDispatch} from 'react-redux';
 import { Link } from 'react-router-dom';
 import ProductCardInCheckOut from './Cards/ProductCardInCheckOut';
+import { useHistory } from 'react-router';
 
 
 
 const Cart = () => {
     const{user,cart} = useSelector((state) =>({...state}));
     const dispatch = useDispatch()
+    const history = useHistory()
 
     // [1 ,2] 100 + 200 = 300
     const getTotal = () =>{
@@ -16,7 +18,9 @@ const Cart = () => {
         },0)
     }
     const saveOrderToDb = () =>{
-            //
+            alert('save order to db ')
+            history.push('/checkout')
+
     }
     const showCartItems = () =>{
        

@@ -37,6 +37,7 @@ import CategoryHome from './Components/categoryHome/CategoryHome';
 import SubHome from './Components/SubHome/SubHome';
 import Shop from './Components/Shop';
 import Cart from './Components/Cart';
+import CheckOut from './Components/CheckOut';
 
 
 function App() {
@@ -86,8 +87,8 @@ function App() {
           <Route path = '/products-update/:slug'>
             <Product></Product>
           </Route>
-          <UserRoute path="/user/history">
-            <History></History>
+          <UserRoute path="/checkout">
+            <CheckOut/>
           </UserRoute>
           <UserRoute path="/user/password">
             <Password></Password>
