@@ -1,8 +1,10 @@
 import React,{useState,useEffect} from 'react';
 import{useSelector,useDispatch} from 'react-redux';
-import{getUserCart,emptyUserCart} from '../functions/user';
+import{getUserCart,emptyUserCart,saveUserAddress} from '../functions/user';
 import { toast } from 'react-toastify';
-
+import ReactDOM from 'react-dom';
+import {Editor, EditorState} from 'draft-js';
+import 'draft-js/dist/Draft.css';
 const CheckOut = () => {
     // redux 
     const dispatch = useDispatch();
@@ -10,6 +12,7 @@ const CheckOut = () => {
 
     const [products,setProducts] = useState([])
     const[total,setTotal] = useState(0)
+    const[editorState, setEditorState] = useState(EditorState.createEmpty());
     
     useEffect(() =>{
        getUserCart(user.token)
@@ -40,7 +43,7 @@ const CheckOut = () => {
           })
     }
     const saveAddressToDb = () =>{
-        //
+      console.log('address',editorState)
     }
     return (
         <div className="row">
@@ -50,7 +53,11 @@ const CheckOut = () => {
 
                <br/>
                <br/>
-               textarea
+               <Editor
+           
+                 editorState={editorState}
+                 onChange={setEditorState}
+                />
                <button className="btn btn-sm btn-success mt-2" onClick={saveAddressToDb}>Save</button>
                <hr/>
                <h4>Got coupon</h4>
