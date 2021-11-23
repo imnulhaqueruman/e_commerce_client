@@ -12,7 +12,8 @@ const CheckOut = () => {
 
     const [products,setProducts] = useState([])
     const[total,setTotal] = useState(0)
-    const[editorState, setEditorState] = useState(EditorState.createEmpty());
+    const[address,setAddress] = useState(" ")
+    const[addressSaved,setAddressSaved] = useState(false)
     
     useEffect(() =>{
        getUserCart(user.token)
@@ -43,21 +44,27 @@ const CheckOut = () => {
           })
     }
     const saveAddressToDb = () =>{
-      console.log('address',editorState)
+      //console.log('address',editorState)
+      //console.log(address)
+      saveUserAddress(user.token,address).then(res =>{
+        if(res.data.ok){
+            setAddressSaved(true);
+            toast.success('Address saved')
+        }
+      })
     }
     return (
         <div className="row">
             <div className="col-md-6">
                <h4>Delivery Address</h4>
-               <hr/>
-
+               <br/>
+               <div class="form-floating">
+                    <textarea class="form-control" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                    <label for="floatingTextarea"></label>
+                </div>
                <br/>
                <br/>
-               <Editor
-           
-                 editorState={editorState}
-                 onChange={setEditorState}
-                />
+               
                <button className="btn btn-sm btn-success mt-2" onClick={saveAddressToDb}>Save</button>
                <hr/>
                <h4>Got coupon</h4>
@@ -81,7 +88,7 @@ const CheckOut = () => {
                 <p><b>Cart total:{total}</b></p>
                 <div className="row">
                     <div className="col-md-6">
-                       <button className="btn btn-primary">Place order</button>
+                       <button className="btn btn-primary" disabled={!addressSaved || !products.length}>Place order</button>
                     </div>
                     <div className="col-md-6">
                        <button
