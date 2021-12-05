@@ -38,6 +38,7 @@ import SubHome from './Components/SubHome/SubHome';
 import Shop from './Components/Shop';
 import Cart from './Components/Cart';
 import CheckOut from './Components/CheckOut';
+import CreateCoupon from './Components/admin/CreateCoupon';
 
 
 function App() {
@@ -120,6 +121,9 @@ function App() {
           <AdminRoute path="/admin/:slug">
             <CategoryUpdate></CategoryUpdate>
           </AdminRoute>
+          <AdminRoute path='/couponPage'>
+              <CreateCoupon></CreateCoupon>
+          </AdminRoute>
           
           <Route exact path="/category/:slug">
             <CategoryHome/>
@@ -133,6 +137,7 @@ function App() {
           <Route exact path="/cart">
             <Cart/>
           </Route>
+         
         
           <Route path="/">
              <Home></Home>
