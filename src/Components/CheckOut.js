@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import{useSelector,useDispatch} from 'react-redux';
-import{getUserCart,emptyUserCart,saveUserAddress} from '../functions/user';
+import{getUserCart,emptyUserCart,saveUserAddress,applyCoupon} from '../functions/user';
 import { toast } from 'react-toastify';
 import ReactDOM from 'react-dom';
 import {Editor, EditorState} from 'draft-js';
@@ -15,6 +15,9 @@ const CheckOut = () => {
     const[address,setAddress] = useState(" ")
     const[addressSaved,setAddressSaved] = useState(false)
     const[coupon,setCoupon] = useState('')
+    // discount price 
+    const[totalAfterDiscount, setTotalAfterDiscount] = useState('')
+    const[discountError, setDiscountError] = useState('')
     
     useEffect(() =>{
        getUserCart(user.token)
@@ -55,7 +58,22 @@ const CheckOut = () => {
       })
     };
     const applyDiscountCoupon = () =>{
-        console.log('send coupon to backend',coupon)
+        console.log('send coupon to backend',coupon);
+        applyCoupon(user.token, coupon) 
+        .then(res =>{
+            console.log('RES on COUPON APPLIED', res.data)
+            if(res.data){
+                setTotalAfterDiscount(res.data)
+                // push the total after discount to redux 
+            }
+            // error
+            if(res.data.err){
+                setDiscountError(res.data.err);
+                // update redux coupon applied
+            }
+
+        })
+
     }
     const showAddress = () => (
      <>
@@ -66,7 +84,7 @@ const CheckOut = () => {
         <br/>
         <br/>
                
-        <button className="btn btn-sm btn-success p-2 mt-2" onClick={saveAddressToDb}>Save</button>
+        <button className="btn btn-sm btn-success  mt-2" onClick={saveAddressToDb}>Save</button>
      </>);
     const showProductSummary = () =>
         <> 
@@ -83,7 +101,7 @@ const CheckOut = () => {
     const showApplyCoupon = () => (
         <>
            <input onChange={(e) => setCoupon(e.target.value)} value={coupon} type="text" className="form-control"/>
-           <button onClick={applyDiscountCoupon()} className="btn btn-success p-2 mt-2">
+           <button onClick={applyDiscountCoupon} className="btn btn-success mt-2">
              Apply
            </button>
         </>
