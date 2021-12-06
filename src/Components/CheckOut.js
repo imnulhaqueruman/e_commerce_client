@@ -16,7 +16,7 @@ const CheckOut = () => {
     const[addressSaved,setAddressSaved] = useState(false)
     const[coupon,setCoupon] = useState('')
     // discount price 
-    const[totalAfterDiscount, setTotalAfterDiscount] = useState('')
+    const[totalAfterDiscount, setTotalAfterDiscount] = useState(0)
     const[discountError, setDiscountError] = useState('')
     
     useEffect(() =>{
@@ -44,6 +44,8 @@ const CheckOut = () => {
               console.log('deleted cart')
               setProducts([])
               setTotal(0)
+              setTotalAfterDiscount(0)
+              setCoupon('')
               toast.success('Cart is empty . Continue shopping')
           })
     }
@@ -100,7 +102,14 @@ const CheckOut = () => {
     
     const showApplyCoupon = () => (
         <>
-           <input onChange={(e) => setCoupon(e.target.value)} value={coupon} type="text" className="form-control"/>
+           <input
+             onChange={(e) =>{
+                 setCoupon(e.target.value)
+                 setDiscountError('')
+                }}
+             value={coupon} 
+             type="text" className="form-control"
+            />
            <button onClick={applyDiscountCoupon} className="btn btn-success mt-2">
              Apply
            </button>
@@ -115,7 +124,8 @@ const CheckOut = () => {
                <hr/>
                <h4>Got coupon</h4>
                 {showApplyCoupon()}
-               <br/>
+               <hr/>
+               {discountError && <p className="bg-danger p-2 ">{discountError}</p>}
 
             </div>
             <div className="col-md-6">
@@ -126,6 +136,9 @@ const CheckOut = () => {
                  {showProductSummary()}
                 <hr/>
                 <p><b>Cart total:{total}</b></p>
+                {totalAfterDiscount > 0 && (
+                    <p className="bg-success p-2 ">Discount Applied : Total payable ${totalAfterDiscount}</p>
+                )}
                 <div className="row">
                     <div className="col-md-6">
                        <button className="btn btn-primary" disabled={!addressSaved || !products.length}>Place order</button>
