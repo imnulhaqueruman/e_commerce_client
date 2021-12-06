@@ -52,20 +52,35 @@ const CheckOut = () => {
             toast.success('Address saved')
         }
       })
-    }
+    };
+    const showAddress = () => (
+     <>
+       <div class="form-floating">
+            <textarea class="form-control" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+            <label for="floatingTextarea"></label>
+        </div>
+        <br/>
+        <br/>
+               
+        <button className="btn btn-sm btn-success mt-2" onClick={saveAddressToDb}>Save</button>
+     </>);
+    const showProductSummary = () =>
+        <> 
+            {products.map((p,i) =>(
+                    <div key={i}>
+                        <p>
+                           <b> {p.product.title} ({p.color}) x {p.count} = {" "}
+                            {p.product.price * p.count}</b>
+                        </p>
+                    </div>
+            ))}
+        </>
     return (
         <div className="row">
             <div className="col-md-6">
                <h4>Delivery Address</h4>
                <br/>
-               <div class="form-floating">
-                    <textarea class="form-control" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Leave a comment here" id="floatingTextarea"></textarea>
-                    <label for="floatingTextarea"></label>
-                </div>
-               <br/>
-               <br/>
-               
-               <button className="btn btn-sm btn-success mt-2" onClick={saveAddressToDb}>Save</button>
+               {showAddress()}
                <hr/>
                <h4>Got coupon</h4>
                <br/>
@@ -76,14 +91,7 @@ const CheckOut = () => {
                 <hr/>
                 <h4>Products {products.length}</h4>
                 <hr/>
-                {products.map((p,i) =>(
-                    <div key={i}>
-                        <p>
-                           <b> {p.product.title} ({p.color}) x {p.count} = {" "}
-                            {p.product.price * p.count}</b>
-                        </p>
-                    </div>
-                ))}
+                 {showProductSummary()}
                 <hr/>
                 <p><b>Cart total:{total}</b></p>
                 <div className="row">
