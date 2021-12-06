@@ -14,6 +14,7 @@ const CheckOut = () => {
     const[total,setTotal] = useState(0)
     const[address,setAddress] = useState(" ")
     const[addressSaved,setAddressSaved] = useState(false)
+    const[coupon,setCoupon] = useState('')
     
     useEffect(() =>{
        getUserCart(user.token)
@@ -53,6 +54,9 @@ const CheckOut = () => {
         }
       })
     };
+    const applyDiscountCoupon = () =>{
+        console.log('send coupon to backend',coupon)
+    }
     const showAddress = () => (
      <>
        <div class="form-floating">
@@ -62,7 +66,7 @@ const CheckOut = () => {
         <br/>
         <br/>
                
-        <button className="btn btn-sm btn-success mt-2" onClick={saveAddressToDb}>Save</button>
+        <button className="btn btn-sm btn-success p-2 mt-2" onClick={saveAddressToDb}>Save</button>
      </>);
     const showProductSummary = () =>
         <> 
@@ -75,6 +79,15 @@ const CheckOut = () => {
                     </div>
             ))}
         </>
+    
+    const showApplyCoupon = () => (
+        <>
+           <input onChange={(e) => setCoupon(e.target.value)} value={coupon} type="text" className="form-control"/>
+           <button onClick={applyDiscountCoupon()} className="btn btn-success p-2 mt-2">
+             Apply
+           </button>
+        </>
+    )
     return (
         <div className="row">
             <div className="col-md-6">
@@ -83,6 +96,7 @@ const CheckOut = () => {
                {showAddress()}
                <hr/>
                <h4>Got coupon</h4>
+                {showApplyCoupon()}
                <br/>
 
             </div>
