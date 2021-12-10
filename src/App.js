@@ -39,6 +39,7 @@ import Shop from './Components/Shop';
 import Cart from './Components/Cart';
 import CheckOut from './Components/CheckOut';
 import CreateCoupon from './Components/admin/CreateCoupon';
+import Payment from './Components/admin/Payment';
 
 
 function App() {
@@ -96,6 +97,9 @@ function App() {
           </UserRoute>
           <UserRoute path="/user/wishlist">
             <Wishlist></Wishlist>
+          </UserRoute>
+          <UserRoute path="/payment">
+              <Payment></Payment>
           </UserRoute>
           <AdminRoute path="/admin/dashboard">
             <AdminDashboard></AdminDashboard>

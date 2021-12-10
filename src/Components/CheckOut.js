@@ -5,10 +5,12 @@ import { toast } from 'react-toastify';
 import ReactDOM from 'react-dom';
 import {Editor, EditorState} from 'draft-js';
 import 'draft-js/dist/Draft.css';
+import { useHistory } from 'react-router';
 const CheckOut = () => {
     // redux 
     const dispatch = useDispatch();
-    const {user} = useSelector((state) =>({...state}))
+    const {user,Coupons} = useSelector((state) =>({...state}))
+    const history = useHistory()
 
     const [products,setProducts] = useState([])
     const[total,setTotal] = useState(0)
@@ -66,12 +68,20 @@ const CheckOut = () => {
             console.log('RES on COUPON APPLIED', res.data)
             if(res.data){
                 setTotalAfterDiscount(res.data)
-                // push the total after discount to redux 
+                // update redux coupon applied true/false
+                dispatch({
+                    type:'COUPON_APPLIED',
+                    payLoad:true,
+                });
             }
             // error
             if(res.data.err){
                 setDiscountError(res.data.err);
-                // update redux coupon applied
+                // update redux coupon applied true /false
+                dispatch({
+                    type:'COUPON_APPLIED',
+                    payLoad:false,
+                });
             }
 
         })
@@ -141,7 +151,7 @@ const CheckOut = () => {
                 )}
                 <div className="row">
                     <div className="col-md-6">
-                       <button className="btn btn-primary" disabled={!addressSaved || !products.length}>Place order</button>
+                       <button className="btn btn-primary" disabled={!addressSaved || !products.length} onClick={()=>history.push("/payment")}>Place order</button>
                     </div>
                     <div className="col-md-6">
                        <button
