@@ -4,6 +4,7 @@ import { useSelector,useDispatch } from 'react-redux';
 import {createPaymentIntent} from '../functions/stripe';
 import { useHistory } from 'react-router';
 import { useState } from 'react';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 const StripeCheckOut = () => {
     const history = useHistory()
@@ -12,7 +13,7 @@ const StripeCheckOut = () => {
 
     const[succeeded,setSucceeded] = useState(false)
     const[error,setError] = useState(false)
-    const[processing,setProcessing] = useState('')
+    const[processing,setProcessing] = useState(false)
     const[disabled,setDisabled] = useState(true)
     const[clientSecret,setClientSecret] = useState('');
     
@@ -22,13 +23,36 @@ const StripeCheckOut = () => {
     useEffect(() =>{
          createPaymentIntent(user.token)
          .then((res) =>{
-             //console.log('createPaymentIntent',res.data.clientSecret)
+             console.log('createPaymentIntent',res.data.clientSecret)
              setClientSecret(res.data.clientSecret)
          })
     },[]);
 
-    const handleSubmit = async (e) =>{
-        //
+const handleSubmit = async (e) =>{
+        e.preventDefault()
+         setProcessing(true)
+
+        const payLoad = await stripe.confirmCardPayment(clientSecret,{
+          payment_method:{
+            card:elements.getElement(CardElement),
+            billing_details:{
+              name:e.target.name.value,
+            },
+          },
+        })
+        if(payLoad.error){
+            setError(`Payment Failed ${payLoad.error.message} `)
+            setProcessing(false)
+        }else{
+                   // here you get result after successfull payment 
+                   // create order and save in database for admin to process
+                   // empty user cart from redux store and local storage 
+           console.log(JSON.stringify(payLoad,null,4))
+           console.log(payLoad)
+           setError(null)
+           setProcessing(false)
+           setSucceeded(true)
+        }
     }
     const handleChange = async (e) =>{
         // listen for changes in the card element
@@ -56,11 +80,15 @@ const StripeCheckOut = () => {
       };
 
     return (
-        <>
-            <from 
-              id="payment-from" 
-              className="stripe-from" 
-              onSubmit={handleSubmit}
+        <div>
+          <p className={succeeded ? 'result-message' :'result-message hidden'}>
+            Payment SuccessFull <Link to="/user/history">See it in your purchase history</Link>
+          </p>
+          
+            <form
+                id="payment-from" 
+                className="stripe-from" 
+                onSubmit={handleSubmit}
             >
                <CardElement 
                 id="card-element" 
@@ -74,9 +102,9 @@ const StripeCheckOut = () => {
                </button>
                <br/>
                {error && <div className="card-error" role="alert">{error}</div>}
-            </from>
+            </form>
             
-        </>
+        </div>
     );
 };
 
