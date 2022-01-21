@@ -32,9 +32,10 @@ const StripeCheckOut = () => {
     useEffect(() =>{
          createPaymentIntent(user.token,Coupons)
          .then((res) =>{
-             console.log('createPaymentIntent',res.data.clientSecret)
+             console.log('createPaymentIntent',res.data)
              setClientSecret(res.data.clientSecret);
              // additional response received on successfull payment
+             console.log(res.data.cartTotal)
              setCartTotal(res.data.cartTotal);
              setTotalAfterDiscount(res.data.totalAfterDiscount)
              setPayable(res.data.payable)
