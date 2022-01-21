@@ -5,6 +5,11 @@ import {createPaymentIntent} from '../functions/stripe';
 import { useHistory } from 'react-router';
 import { useState } from 'react';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import {Card} from "antd"
+import { DollarOutlined,CheckOutlined } from '@ant-design/icons';
+import Laptop from '../images/laptop.png';
+
+
 
 const StripeCheckOut = () => {
     const history = useHistory()
@@ -16,6 +21,10 @@ const StripeCheckOut = () => {
     const[processing,setProcessing] = useState(false)
     const[disabled,setDisabled] = useState(true)
     const[clientSecret,setClientSecret] = useState('');
+
+    const[cartTotal,setCartTotal] = useState(0)
+    const[totalAfterDiscount,setTotalAfterDiscount] = useState(0);
+    const[payable,setPayable] = useState(0)
     
     const stripe = useStripe();
     const elements = useElements();
@@ -24,7 +33,11 @@ const StripeCheckOut = () => {
          createPaymentIntent(user.token,Coupons)
          .then((res) =>{
              console.log('createPaymentIntent',res.data.clientSecret)
-             setClientSecret(res.data.clientSecret)
+             setClientSecret(res.data.clientSecret);
+             // additional response received on successfull payment
+             setCartTotal(res.data.cartTotal);
+             setTotalAfterDiscount(res.data.totalAfterDiscount)
+             setPayable(res.data.payable)
          })
     },[]);
 
@@ -81,9 +94,29 @@ const handleSubmit = async (e) =>{
 
     return (
         <div>
-          <p className={succeeded ? 'result-message' :'result-message hidden'}>
-            Payment SuccessFull <Link to="/user/history">See it in your purchase history</Link>
-          </p>
+           {
+             !succeeded && <div>
+               {Coupons && totalAfterDiscount !== undefined ? (
+                 <p className="alert alert-success">{`TotalAfterDiscount:$${totalAfterDiscount}`}</p>
+               ) :
+               (<p className="alert alert-danger">No coupon Applied</p>)}
+             </div>
+           }
+          <div className="text-center pb-5">
+               <Card 
+                cover={
+                  <img alt="" src={Laptop} style={{height:'200px',objectFit:'cover',marginBottom:'-50px' }} />
+                }
+                actions={[
+                  <>
+                    <DollarOutlined className="text=info" /> <br/> Total :$ {cartTotal}
+                  </>,
+                  <>
+                    <CheckOutlined className="text=info" /> <br/> Total Payable :$ {(payable/100).toFixed(2)}
+                 </>
+                ]}
+               />
+          </div>
           
             <form
                 id="payment-from" 
@@ -102,6 +135,10 @@ const handleSubmit = async (e) =>{
                </button>
                <br/>
                {error && <div className="card-error" role="alert">{error}</div>}
+               <br/>
+               <p className={succeeded ? 'result-message' :'result-message hidden'}>
+                Payment SuccessFull <Link to="/user/history">See it in your purchase history</Link>
+              </p>
             </form>
             
         </div>
