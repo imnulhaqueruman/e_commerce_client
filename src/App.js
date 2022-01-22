@@ -40,6 +40,7 @@ import Cart from './Components/Cart';
 import CheckOut from './Components/CheckOut';
 import CreateCoupon from './Components/admin/CreateCoupon';
 import Payment from './Components/admin/Payment';
+import UserNav from './Components/Nav/UserNav';
 
 
 function App() {
@@ -95,6 +96,10 @@ function App() {
           <UserRoute path="/user/password">
             <Password></Password>
           </UserRoute>
+          <UserRoute path="/user/history">
+            <UserNav></UserNav>
+          </UserRoute>
+          
           <UserRoute path="/user/wishlist">
             <Wishlist></Wishlist>
           </UserRoute>
