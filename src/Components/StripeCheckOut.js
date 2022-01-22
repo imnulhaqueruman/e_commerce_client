@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import {Card} from "antd"
 import { DollarOutlined,CheckOutlined } from '@ant-design/icons';
 import Laptop from '../images/laptop.png';
-
+import{createOrder,emptyUserCart} from "../functions/user";
 
 
 const StripeCheckOut = () => {
@@ -60,6 +60,26 @@ const handleSubmit = async (e) =>{
         }else{
                    // here you get result after successfull payment 
                    // create order and save in database for admin to process
+              createOrder(payLoad,user.token)
+              .then(res =>{
+                if(res.data.ok){
+                  // empty cart from local storage 
+                  if(typeof window !== 'undefined') localStorage.removeItem('cart');
+
+                  // empty cart from Redux
+                  dispatch({
+                    type:"ADD_TO_CART",
+                    payLoad:[],
+                  });
+                  // reset coupon to false 
+                  dispatch({
+                    type:"COUPON_APPLIED",
+                    payLoad:false,
+                  });
+                  // empty cart from database
+                   emptyUserCart(user.token)
+                }
+              })
                    // empty user cart from redux store and local storage 
            console.log(JSON.stringify(payLoad,null,4))
            console.log(payLoad)

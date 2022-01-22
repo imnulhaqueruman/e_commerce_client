@@ -313,6 +313,7 @@ const Shop = () => {
                           <div style={{marginTop:'-10px'}} className="  pe-5">
                               { brands.map((b) =>
                                  <Radio
+                                  key = {b}
                                    value = {b}
                                    name={b}
                                    checked={b === brand}
