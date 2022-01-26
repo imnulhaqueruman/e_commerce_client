@@ -3,6 +3,7 @@ import UserNav from '../Nav/UserNav';
 import{getUserOrders} from '../../functions/user';
 import{useSelector,useDispatch} from 'react-redux';
 import{CheckCircleOutlined,CloseCircleOutlined} from "@ant-design/icons";
+import ShowPaymentInfo from './ShowPaymentInfo';
 
 
 const History = () => {
@@ -65,7 +66,7 @@ const History = () => {
                     </h4> 
                     {orders.map((order,i) =>
                             <div key={i} className="m-5 p-3 card">
-                                   <p>show payment info </p>
+                                   <ShowPaymentInfo order={order}/>
                                    {showOrderInTable(order)}
                                    <div className="row">
                                        <div className='col'>
