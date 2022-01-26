@@ -27,7 +27,7 @@ const History = () => {
                 </div>
 
                  <div className="col">
-                   
+                   history  page
                  </div>
             </div>
             
