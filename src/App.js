@@ -96,10 +96,12 @@ function App() {
           <UserRoute path="/user/password">
             <Password></Password>
           </UserRoute>
-          <UserRoute path="/user/history">
+          {/* <UserRoute path="/user/history">
             <UserNav></UserNav>
+          </UserRoute> */}
+          <UserRoute path="/user/history">
+            <History></History>
           </UserRoute>
-          
           <UserRoute path="/user/wishlist">
             <Wishlist></Wishlist>
           </UserRoute>
