@@ -4,7 +4,7 @@ import{getUserOrders} from '../../functions/user';
 import{useSelector,useDispatch} from 'react-redux';
 import{CheckCircleOutlined,CloseCircleOutlined} from "@ant-design/icons";
 import ShowPaymentInfo from './ShowPaymentInfo';
-
+import { Document, Page, Text, View, StyleSheet,PDFDownloadLink,PDFViewer } from '@react-pdf/renderer';
 
 const History = () => {
     const [orders,setOrders] = useState([])
@@ -52,7 +52,27 @@ const History = () => {
         
     )
     
-    
+    const showDownloadLink = (order) =>(
+        <>
+          <PDFDownloadLink document={
+                <Document>
+                <Page size="A4">
+                <View>
+                    <Text>Section1</Text> 
+                    <Text>Section1</Text> 
+                </View>
+                </Page>
+                </Document>
+          }
+          fileName="invoice.pdf"
+          className="btn btn-sm btn-block btn-outline-success"
+          >
+             DownLoad PDF
+          </PDFDownloadLink>
+        </>
+    )
+
+   
     return (
         <div className="container-fluid">
             <div className="row">
@@ -69,8 +89,8 @@ const History = () => {
                                    <ShowPaymentInfo order={order}/>
                                    {showOrderInTable(order)}
                                    <div className="row">
-                                       <div className='col'>
-                                       <p>Pdf download</p>
+                                       <div className='col text center'>
+                                       <div className="col">{showDownloadLink(order)}</div>
                                        </div>
                                    </div>
                                    
