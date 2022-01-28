@@ -5,6 +5,7 @@ import{useSelector,useDispatch} from 'react-redux';
 import{CheckCircleOutlined,CloseCircleOutlined} from "@ant-design/icons";
 import ShowPaymentInfo from './ShowPaymentInfo';
 import { Document, Page, Text, View, StyleSheet,PDFDownloadLink,PDFViewer } from '@react-pdf/renderer';
+import Invoice from '../order/Invoice';
 
 const History = () => {
     const [orders,setOrders] = useState([])
@@ -55,14 +56,7 @@ const History = () => {
     const showDownloadLink = (order) =>(
         <>
           <PDFDownloadLink document={
-                <Document>
-                <Page size="A4">
-                <View>
-                    <Text>Section1</Text> 
-                    <Text>Section1</Text> 
-                </View>
-                </Page>
-                </Document>
+                <Invoice order={order} />
           }
           fileName="invoice.pdf"
           className="btn btn-sm btn-block btn-outline-success"
