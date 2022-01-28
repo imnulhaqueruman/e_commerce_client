@@ -7,7 +7,7 @@ const Invoice = ({order}) => {
         <Document>
             <Page style={styles.body}>
                <Text style={styles.header} fixed>
-                    `{new Date().toLocaleString}`
+                    {new Date().toLocaleString()}
                 </Text>
                 <Text style={styles.title}>
                     order invoice
@@ -18,7 +18,55 @@ const Invoice = ({order}) => {
                 <Text style={styles.subtitle}>
                     order summary
                 </Text>
+                <table>
+                    <thead>
+                       <tr>
+                           <th>
+                           <th scope="col">Title</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Brand</th>
+                            <th scope="col">Color</th>
+                            <th scope="col">Count</th>
+                            <th scope="col">Shipping</th>
+                           </th>
+                       </tr>
+                    </thead>
+                </table>
+                <table data={order.products}>
+                    <tbody>
+                       <tr>
+                          <td getContent={(x) => x.product.title}/>
+                          <td getContent={(x) => `$${x.product.price}`}/>
+                          <td getContent={(x) => x.count}/>
+                          <td getContent={(x) => x.product.brand}/>
+                          <td getContent={(x) => x.product.color}/>
+                       </tr>
+                    </tbody>
+                </table>
+
+                <Text style={styles.text}>
+                  <Text>
+                      Date: {'               '}{new Date(order.paymentIntent.created * 1000).toLocaleString()}
+                  </Text>
+                  {"\n"}
+                  <Text>
+                    Order Id :{'          '}{order.paymentIntent.id}
+                  </Text>
+                  {"\n"}
+                  <Text>
+                    Order Status :{'   '}{order.orderStatus}
+                  </Text>
+                  {"\n"}
+                  <Text>
+                    Total Paid :{'       '}{order.paymentIntent.amount}
+                  </Text>
+                  {"\n"}
+                  <Text style={styles.footer}>
+                      Thank your for shopping with us 
+                  </Text>
+                </Text>
             </Page>
+
         </Document>
             
     
