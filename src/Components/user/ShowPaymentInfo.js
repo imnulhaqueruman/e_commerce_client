@@ -13,7 +13,8 @@ const ShowPaymentInfo = ({order}) => {
                  <span>Method:{order.paymentIntent.payment_method_types[0]}</span>{' /'}
                  <span>Payment:{order.paymentIntent.status.toUpperCase()}</span>{'/ '}
                  <span>Ordered on :{new Date(order.paymentIntent.created * 1000).toLocaleString()}</span>{'/ '}
-                 <span className="badge bg-primary text-white">Order Id:{order.orderStatus}</span>
+                 <br/>
+                 <span className="badge bg-primary text-white">Status:{order.orderStatus}</span>
                  
             </p>
         </div>
