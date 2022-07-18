@@ -8,7 +8,7 @@ const Orders = ({orders,handleStatusChange}) => {
           {orders.map((order) =>(
             <div key={order._id} className="row pb-5">
                 <div className="btn btn-block bg-info">
-                    <ShowPaymentInfo order={order} />
+                    <ShowPaymentInfo order={order} showStatus={false} />
                     <div className="row">
                         <div className="col-md-4">
                             Delivery status

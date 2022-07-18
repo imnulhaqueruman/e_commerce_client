@@ -31,11 +31,11 @@ const AdminDashboard = () => {
     return (
         <div className="container-fluid">
             <div className="row">
-                <div className="col-md-2">
+                <div className="col-md-4">
                     <AdminNav></AdminNav>
                 </div>
                 
-                 <div className="col">
+                 <div className="col-md-8">
                 <h4>Admin Dashboard</h4>
                   {/* {JSON.stringify(orders)} */}
                   <Orders orders={orders} handleStatusChange={handleStatusChange} />

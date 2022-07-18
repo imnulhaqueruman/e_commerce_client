@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ShowPaymentInfo = ({order}) => {
+const ShowPaymentInfo = ({order,showStatus = true}) => {
     return (
         <div className="container-fluid">
             <p>
@@ -14,7 +14,7 @@ const ShowPaymentInfo = ({order}) => {
                  <span>Payment:{order.paymentIntent.status.toUpperCase()}</span>{'/ '}
                  <span>Ordered on :{new Date(order.paymentIntent.created * 1000).toLocaleString()}</span>{'/ '}
                  <br/>
-                 <span className="badge bg-primary text-white">Status:{order.orderStatus}</span>
+                {showStatus && (<span className="badge bg-primary text-white">Status:{order.orderStatus}</span>)} 
                  
             </p>
         </div>
