@@ -6,21 +6,22 @@ import { Link } from 'react-router-dom';
 import { DeleteOutlined } from '@ant-design/icons';
 
 const Wishlist = () => {
-    const [wishList,setWishList] = useState([])
+    const [userWishlist,setUserWishlist] = useState([ ])
 
     const{user} = useSelector((state) =>({...state}))
+
     useEffect(() =>{
     loadWishList()
     },[])
 
     const loadWishList = () =>{
         getWishList(user.token).then(res =>{
-            console.log(res.data.wishlist)
-            console.log(wishList)
-            setWishList(res.data.wishlist)
+            // console.log(res.data)
+            setUserWishlist(res.data.wishlist)
+            // console.log('afterset',userWishlist)
         })
     }
-    const handleRemove = productId => removeWishList(productId,user.token).then(res =>{
+    const handleRemove = productId => removeWishList(productId, user.token).then(res =>{
         loadWishList();
     })
     return (
@@ -31,11 +32,12 @@ const Wishlist = () => {
                 </div> 
                 <div className="col">
                   <h4>  WishList of User</h4> 
-                    {wishList.map((p) => {
+                    {userWishlist.map((p)=> {
                         
                         <div key={p._id} className="alert alert-secondary">
-                            {console.log('title',p)}
-                                    <Link to={`/product/${p.slug}`}>{p.title} </Link>
+                            {console.log('title',p.title)}
+                                    <p>{p.title}</p>
+                                    <Link to={`/product/${p.slug}`}>{p} </Link>
                                     <span onClick={() =>handleRemove(p._id)} className="btn btn-sm float-right"> <DeleteOutlined className="text-danger"/></span>
                         </div>
                     })

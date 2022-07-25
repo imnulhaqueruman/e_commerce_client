@@ -30,6 +30,25 @@ const Cart = () => {
             
 
     }
+    // saveCashOrderToDb
+    const saveCashOrderToDb = () =>{
+        //console.log('cart', JSON.stringify(cart, null, 4))
+        dispatch({
+            type:'COD',
+            payLoad:true
+        })
+        userCart(cart, user.token)
+        .then(res =>{
+            console.log('CART POST RES', res)
+            if(res.data.ok){
+                history.push('/checkout');
+            }
+        })
+        .catch ((err) => console.log('cart save err', err))
+        
+
+}
+
     const showCartItems = () =>{
        
     }
@@ -81,13 +100,23 @@ const Cart = () => {
                <hr/>
                {
                    user ? (
-                       <button 
+                      <>
+                        <button 
                          onClick={saveOrderToDb}
                          className="btn btn-sm btn-success mt-2"
                          disabled={!cart.length}
                         >
                             Proceed to checkout
                        </button>
+                       <br/>
+                       <button 
+                         onClick={saveCashOrderToDb}
+                         className="btn btn-sm btn-warning mt-2"
+                         disabled={!cart.length}
+                        >
+                            Pay cash on delivery
+                       </button>
+                      </>
                      ) :
                         (<button
                             className="btn btn-sm btn-success mt-2"
