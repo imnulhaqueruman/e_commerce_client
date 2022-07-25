@@ -62,3 +62,9 @@ export const addWishList = async (productId,authtoken) =>
             authtoken,
         },
     }) 
+export const createCashOrderForUser = async (stripeResponse, authtoken) =>
+    await axios.post(`${process.env.REACT_APP_API}/user/cash-order`, {},{
+        headers:{
+            authtoken,
+        },
+    }) ;

@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import{useSelector,useDispatch} from 'react-redux';
-import{getUserCart,emptyUserCart,saveUserAddress,applyCoupon} from '../functions/user';
+import{getUserCart,emptyUserCart,saveUserAddress,applyCoupon,createCashOrderForUser} from '../functions/user';
 import { toast } from 'react-toastify';
 import ReactDOM from 'react-dom';
 import {Editor, EditorState} from 'draft-js';
@@ -9,7 +9,7 @@ import { useHistory } from 'react-router';
 const CheckOut = () => {
     // redux 
     const dispatch = useDispatch();
-    const {user,Coupons} = useSelector((state) =>({...state}))
+    const {user,Coupons,COD} = useSelector((state) =>({...state}))
     const history = useHistory()
 
     const [products,setProducts] = useState([])
@@ -125,6 +125,11 @@ const CheckOut = () => {
            </button>
         </>
     )
+    const createCashOrder = () =>{
+        createCashOrderForUser(user.token).then(res =>{
+            console.log('USER CASH ORDER CREATED',res)
+        })
+    }
     return (
         <div className="row">
             <div className="col-md-6">
@@ -151,7 +156,11 @@ const CheckOut = () => {
                 )}
                 <div className="row">
                     <div className="col-md-6">
-                       <button className="btn btn-primary" disabled={!addressSaved || !products.length} onClick={()=>history.push("/payment")}>Place order</button>
+                       {COD ? (<button className="btn btn-primary" disabled={!addressSaved || !products.length} onClick={createCashOrder}>Place order</button> ) : 
+                        
+                       (<button className="btn btn-primary" disabled={!addressSaved || !products.length} onClick={()=>history.push("/payment")}>Place order</button>)
+                    
+                    }
                     </div>
                     <div className="col-md-6">
                        <button
